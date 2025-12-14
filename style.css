@@ -1104,12 +1104,13 @@ width: 120px;
 #buretteNozzel{      
   display: none;                 
   position: absolute;
-  width:5.1%;
+  width:1%;
   height: 9%;  
   top: 42.6%;
-  left: 15.15%;
+  left: 18.5%;
   z-index: 999;
   cursor: pointer;
+  transition: transform ease-in-out;
     /* background-color: rgba(0, 255, 0, 0.4); Debug: translucent green */
 }
 

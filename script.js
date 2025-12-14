@@ -979,6 +979,7 @@ waterBathStart.addEventListener("click", async () => {
     buretteNozzel.addEventListener("click", async () => {
       // Step 18: Titration Process
       if (experimentStep === 18 && !isDropping) {
+        buretteNozzel.style.transform="rotate(30deg)"
         isDropping = true;
 
         // 1. Drop Animation
