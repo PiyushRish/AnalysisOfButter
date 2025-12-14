@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tempBtn = elementId("tempBtn");
   // const mmBtn = elementId("mm");
   // const ssBtn = elementId("ss");
+  
   const waterBathCurrentTemp = elementId("waterBathCurrentTemp");
   const waterBathSetTemp = elementId("waterBathSetTemp");
   let bathTimerInterval = null;
@@ -75,9 +76,8 @@ let bathTimeRemaining = 180; // seconds (3 minutes)
   const btnNext0 = elementId("btnNext");
   const btnNext2 = elementId("btnNext2");
   const btnNext3 = elementId("btnNext3");
-  const btnNext4 = elementId("btnNext4"
-
-  );
+  const btnNext4 = elementId("btnNext4");
+  const butterUsed = elementId("butterStatus");
 
   // --- STATE ---
   let experimentStep = -1; // Locked initially for Intro
@@ -94,6 +94,8 @@ let bathTimeRemaining = 180; // seconds (3 minutes)
   let dropCount = 0;
   let isDropping = false;
   let buretteDropCount = 0; // Added for Titration logic
+let buretteOpen = false;
+let buretteInterval = null;
 
 
   // --- WATER BATH SCREEN UPDATE ---
@@ -279,8 +281,8 @@ window.jumpToStep = function(step) {
     knife.style.left = "80%";
     await wait(1000);
     knife.style.top = "75%";
-    console.log("Step 1 Complete: Butter sliced");
-
+    console.log("Step 1 Complete: Butter sliced");  
+    butterUsed.innerText="5 gram";
     experimentStep = 2; // Next: Power Machine
     updateInstruction(2);
   });
@@ -975,53 +977,97 @@ waterBathStart.addEventListener("click", async () => {
   if (btnNext4) btnNext4.addEventListener("click", () => setupScene("nextButton4"));
 
   // --- BURETTE TITRATION LOGIC (CORRECTED) ---
-  if (buretteNozzel) {
-    buretteNozzel.addEventListener("click", async () => {
-      // Step 18: Titration Process
-      if (experimentStep === 18 && !isDropping) {
-        buretteNozzel.style.transform="rotate(30deg)"
+ 
+if (buretteNozzel) {
+  buretteNozzel.addEventListener("click", async () => {
+
+    // Only allow during titration step
+    if (experimentStep !== 18) return;
+
+    /* ===============================
+    
+       TOGGLE: OPEN / CLOSE BURETTE
+    ================================ */
+
+   if (buretteNozzel) {
+  buretteNozzel.addEventListener("click", async () => {
+
+    if (experimentStep !== 18) return;
+
+    /* ======================
+       OPEN BURETTE
+    ======================= */
+    if (!buretteOpen) {
+      buretteOpen = true;
+      buretteNozzel.style.transform = "rotate(60deg)";
+      console.log("Burette opened");
+
+      buretteInterval = setInterval(async () => {
+        if (isDropping) return;
         isDropping = true;
 
-        // 1. Drop Animation
+        // DROP animation
         drop.style.display = "block";
         drop.classList.remove("drop-form", "drop-fall");
-        void drop.offsetWidth; // Force Reflow
+        void drop.offsetWidth;
 
         drop.classList.add("drop-form");
-        await wait(500);
+        await wait(300);
 
         drop.classList.remove("drop-form");
         drop.classList.add("drop-fall");
-        await wait(1000);
+        await wait(800);
 
         drop.style.display = "none";
-        
-        // 2. Increment Drop Counter
-        buretteDropCount++;
-        console.log(`Titration Drop: ${buretteDropCount}`);
 
-        // 3. Endpoint Reached (3 Drops)
-        if (buretteDropCount >= 3) {
-           console.log("Endpoint reached!");
-           
-           // Turn Solution Pink
-           if (butterMelted) {
-             butterMelted.style.filter = "hue-rotate(270deg) saturate(3)"; 
-           }
-           
-           await wait(1000); // Pause for effect
-           
-           // Show Calculation Modal
-           showCalculation();
-           
-           experimentStep = 19; 
-           updateInstruction(19);
+        buretteDropCount++;
+        console.log(`Drop count: ${buretteDropCount}`);
+
+        // ENDPOINT (ONLY VISUAL + CALC, NO STOP)
+        if (buretteDropCount === 3) {
+          console.log("Endpoint reached (color change)");
+
+          if (butterMelted) {
+            butterMelted.style.filter =
+              "hue-rotate(270deg) saturate(3)";
+          }
+
+          await wait(800);
+          
+
+          // experimentStep = 19;
+          updateInstruction(19);
         }
-        
+
         isDropping = false;
+      }, 1200); // continuous flow
+    }
+
+    /* ======================
+       CLOSE BURETTE (MANUAL)
+    ======================= */
+    else {
+      buretteOpen = false;
+      buretteNozzel.style.transform = "rotate(0deg)";
+      console.log("Burette closed manually");
+      showCalculation();
+
+      if (buretteInterval) {
+        clearInterval(buretteInterval);
+        buretteInterval = null;
       }
-    });
-  }
+    }
+  });
+}
+
+
+
+    // ---------- CLOSE ----------
+    
+    
+  });
+}
+
 
   // --- SHOW CALCULATION MODAL FUNCTION ---
 //   function showCalculation() {

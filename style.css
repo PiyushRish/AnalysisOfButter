@@ -1662,7 +1662,7 @@ width: 120px;
   background: linear-gradient(135deg, #28a745, #218838);
   color: white;
   border: none;
-  border-radius: 50px;
+  border-radius: 2px;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
   opacity: 0;
@@ -1739,7 +1739,8 @@ width: 120px;
 }
 /* --- GREEN BOARD MODAL --- */
 .modal-hidden {
-  display: none !important;
+  /* display: none !important; */
+  display: block;
 }
 
 #calcModal {
@@ -1875,37 +1876,37 @@ width: 120px;
 #experimentInfo {
   position: absolute;
   top: 30%;
-  left: 31%;
+  left: 47%;
+  transform: translateX(-50%);
   z-index: 100;
   color: white;
   pointer-events: none;
   text-align: center;
-  gap: 1%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vmin;
 }
 
-/* BIGGEST */
 #labName {
-  font-size: 5vmin;              /* BIGGEST */
+  font-size: 5vmin;
   font-family: Arial, sans-serif;
   font-weight: 700;
-  margin-bottom: 1.2vmin;
 }
 
-/* MEDIUM */
 #experimentNumber {
-  font-size: 3.5vmin;            /* smaller than labName */
+  font-size: 3.5vmin;
   font-weight: 600;
   font-family: Georgia, serif;
-  margin-bottom: 2vmin;
 }
 
-/* SMALLEST */
 #experimentAim {
-  font-size: 2.4vmin;            /* smallest */
+  font-size: 2.4vmin;
   font-family: "Segoe UI", sans-serif;
   max-width: 70vmin;
   margin: 0 auto;
 }
+
 #debugPanel {
   position: fixed;
   bottom: 10px;
@@ -2013,3 +2014,30 @@ width: 120px;
   font-weight: bold;
   opacity: 1;
 }
+.sidebar-table-wrapper {
+  margin-top: 1.5rem;
+}
+
+.sidebar-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.sidebar-table th,
+.sidebar-table td {
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.sidebar-table th {
+  background-color: rgba(0,0,0,0.4);
+  font-weight: 600;
+}
+
+.sidebar-table td {
+  background-color: rgba(255,255,255,0.1);
+}
+s

@@ -23,7 +23,17 @@
         </table>
         <p id="calcStep1">...</p>
         <p id="calcResult" class="final-result">Result: -- %</p>
+
+        <pre>formula: a2 + b2 = 2ab
+        
+        </pre>
+        <input type="text" onchange={}/>
+        <button>Check Your answer</button>
+
+
+
         <button id="btnRestart">Restart Experiment</button>
+
       </div>
     </div>
   </div>
@@ -68,6 +78,25 @@
     <li data-step="10">Titration</li>
     <li data-step="11">Calculation</li>
   </ul>
+
+  <div class="sidebar-table-wrapper">
+    <table class="sidebar-table">
+      <thead>
+        <tr>
+          <th>Butter</th>
+          <th>NaOH</th>
+          <th>Phenolphthalein</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="butterStatus">—</td>
+          <td id="naohStatus">—</td>
+          <td id="phenolStatus">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 
