@@ -148,8 +148,8 @@ body {
 #waterBathWrapper {
   display: none;
   position: absolute;
-  top: 32%;
-  left: 60%;
+  top: 29%;
+  left: 3%;
   width: 25%;
   z-index: 100;
 }

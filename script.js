@@ -352,11 +352,11 @@ window.jumpToStep = function(step) {
       flask.style.top = "-7%";
       butterSlice.style.top = "26%";
       await wait(1000);
-      flask.style.left = "68%";
-      butterSlice.style.left = "71.6%";
+      flask.style.left = "11%";
+      butterSlice.style.left = "14.7%";
       await wait(1000);
-      flask.style.top = "29%";
-      butterSlice.style.top = "62.5%";
+      flask.style.top = "21.5%";
+      butterSlice.style.top = "54.5%";
       console.log("Step 7 Complete: Flask in Water Bath");
 
       experimentStep = 11; // Next: Start Water Bath
@@ -593,7 +593,7 @@ waterBathStart.addEventListener("click", async () => {
         updateInstruction(12);
       }, 5000);
     }
-  }, 1000);
+  }, 100);
 });
 
 
@@ -649,6 +649,7 @@ waterBathStart.addEventListener("click", async () => {
     updateInstruction(9);
   } 
   else if(experimentStep === 8){
+    console.log("experiment step for pouring inside 50ml")
     experimentStep = -1;
     
     diethylEther.style.top = "5%";
@@ -903,6 +904,7 @@ waterBathStart.addEventListener("click", async () => {
     if (step === "start") {
       if (experimentStep !== 7) return;
       weightingMachine.style.display="none";
+      measuringCylinder.style.display="block";
       next1.style.display="none";
       knife.style.display="none";
       butter.style.display="none";
@@ -1021,67 +1023,99 @@ waterBathStart.addEventListener("click", async () => {
   }
 
   // --- SHOW CALCULATION MODAL FUNCTION ---
-  function showCalculation() {
-  console.log("SHOW CALC FUNCTION TRIGGERED!");
+//   function showCalculation() {
+//   console.log("SHOW CALC FUNCTION TRIGGERED!");
 
-  // --- ENSURE MODAL EXISTS ---
-  let modal = document.getElementById("calcModal");
+//   // --- ENSURE MODAL EXISTS ---
+//   let modal = document.getElementById("calcModal");
+
+//   if (!modal) {
+//     modal = document.createElement("div");
+//     modal.id = "calcModal";
+//     modal.classList.add("calcModal");
+//     modal.style.position = "fixed";
+//     modal.style.top = "0";
+//     modal.style.left = "0";
+//     modal.style.width = "100%";
+//     modal.style.height = "100%";
+//     modal.style.background = "rgba(0,0,0,0.5)";
+//     modal.style.display = "flex";
+//     modal.style.justifyContent = "center";
+//     modal.style.alignItems = "center";
+//     modal.style.zIndex = "5000";
+
+//     modal.innerHTML = `
+//       <div style="background:white;padding:20px;border-radius:10px;width:420px;text-align:center;">
+//         <h2>Calculation</h2>
+//         <p>Volume of NaOH used (V): <span id="valV">0.0</span> ml</p>
+
+//         <div style="margin-top:15px;padding:10px;border:1px solid #bbb;">
+//           <p id="calcStep1"></p>
+//           <h3 id="calcResult" style="color:green;"></h3>
+//         </div>
+
+//         <button id="btnRestart"
+//           style="margin-top:20px;padding:10px 20px;background:#007bff;color:white;border:none;border-radius:6px;cursor:pointer;">
+//           Restart Experiment
+//         </button>
+//       </div>
+//     `;
+
+//     document.body.appendChild(modal);
+//   }
+
+//   // --- APPLY VALUES ---
+//   let V = 2.50;   // TEMPORARY (you will update later)
+//   let N = 0.1;
+//   let W = 5.0;
+//   let factor = 28.2;
+
+//   let result = (V * N * factor) / W;
+
+//   document.getElementById("valV").innerText = V.toFixed(2);
+//   document.getElementById("calcStep1").innerText =
+//     `${V.toFixed(2)} × 0.1 × 28.2 / 5 = ${result.toFixed(3)}`;
+//   document.getElementById("calcResult").innerText =
+//     `Result: ${result.toFixed(3)} % FFA`;
+
+//   // --- SHOW MODAL ---
+//   modal.style.display = "flex";
+
+//   // --- RESTART ---
+//   document.getElementById("btnRestart").onclick = () => location.reload();
+// }
+function showCalculation() {
+  const modal = document.getElementById("calcModal");
 
   if (!modal) {
-    modal = document.createElement("div");
-    modal.id = "calcModal";
-    modal.classList.add("calcModal");
-    modal.style.position = "fixed";
-    modal.style.top = "0";
-    modal.style.left = "0";
-    modal.style.width = "100%";
-    modal.style.height = "100%";
-    modal.style.background = "rgba(0,0,0,0.5)";
-    modal.style.display = "flex";
-    modal.style.justifyContent = "center";
-    modal.style.alignItems = "center";
-    modal.style.zIndex = "5000";
-
-    modal.innerHTML = `
-      <div style="background:white;padding:20px;border-radius:10px;width:420px;text-align:center;">
-        <h2>Calculation</h2>
-        <p>Volume of NaOH used (V): <span id="valV">0.0</span> ml</p>
-
-        <div style="margin-top:15px;padding:10px;border:1px solid #bbb;">
-          <p id="calcStep1"></p>
-          <h3 id="calcResult" style="color:green;"></h3>
-        </div>
-
-        <button id="btnRestart"
-          style="margin-top:20px;padding:10px 20px;background:#007bff;color:white;border:none;border-radius:6px;cursor:pointer;">
-          Restart Experiment
-        </button>
-      </div>
-    `;
-
-    document.body.appendChild(modal);
+    console.error("calcModal not found");
+    return;
   }
 
-  // --- APPLY VALUES ---
-  let V = 2.50;   // TEMPORARY (you will update later)
+  // === SAMPLE VALUES (you can change later) ===
+  let V = 2.50;
   let N = 0.1;
   let W = 5.0;
   let factor = 28.2;
 
   let result = (V * N * factor) / W;
 
+  // === UPDATE UI ===
   document.getElementById("valV").innerText = V.toFixed(2);
   document.getElementById("calcStep1").innerText =
     `${V.toFixed(2)} × 0.1 × 28.2 / 5 = ${result.toFixed(3)}`;
   document.getElementById("calcResult").innerText =
     `Result: ${result.toFixed(3)} % FFA`;
 
-  // --- SHOW MODAL ---
-  modal.style.display = "flex";
+  // === SHOW MODAL ===
+  modal.classList.remove("modal-hidden");
 
-  // --- RESTART ---
-  document.getElementById("btnRestart").onclick = () => location.reload();
+  // === RESTART BUTTON ===
+  document.getElementById("btnRestart").onclick = () => {
+    location.reload();
+  };
 }
+
 
 });
 
