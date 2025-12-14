@@ -161,6 +161,13 @@ if (startExperimentBtn) {
     }
     stepBox.innerHTML = `<span style="color: rgb(187, 4, 4);">Instruction:</span> ${msg}`;
   }
+  const stepToggleBtn = document.getElementById("stepToggleBtn");
+const stepSidebar = document.getElementById("stepSidebar");
+
+stepToggleBtn.addEventListener("click", () => {
+  stepSidebar.classList.toggle("open");
+});
+
   // --- DEBUG STEP JUMP (NO CONSOLE REQUIRED) ---
 window.jumpToStep = function(step) {
 

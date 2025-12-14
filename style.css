@@ -1939,3 +1939,76 @@ width: 120px;
 .hidden {
   display: none;
 }
+
+/* TOGGLE BUTTON */
+#stepToggleBtn {
+  position: absolute;
+  top: 0.7%;
+  right: 0;
+  height: 5.5%;
+  width: 3%;
+  z-index: 4000;
+  padding: 2px 14px;
+  border-radius: 8px 0 0 8px;
+  background: #064a18;
+  color: rgb(255, 255, 255);
+  border: none;
+  cursor: pointer;
+  font-size: 60%;
+}
+
+/* SIDEBAR */
+#stepSidebar {
+  position: fixed;
+  top: 0;
+  right: -260px; /* hidden */
+  width: 260px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 15px;
+  transition: right 0.35s ease;
+  z-index: 3999;
+  overflow-y: auto;
+}
+
+/* OPEN STATE */
+#stepSidebar.open {
+  right: 0;
+}
+
+/* CONTENT */
+#stepSidebar h3 {
+  text-align: center;
+  border-bottom: 1px solid #555;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+#stepList {
+  list-style: none;
+  padding: 0;
+}
+
+#stepList li {
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  background: #444;
+  opacity: 0.5;
+  font-size: 0.85rem;
+}
+
+/* STATES */
+#stepList li.completed {
+  background: #2ecc71;
+  color: black;
+  opacity: 1;
+}
+
+#stepList li.current {
+  background: #f1c40f;
+  color: black;
+  font-weight: bold;
+  opacity: 1;
+}

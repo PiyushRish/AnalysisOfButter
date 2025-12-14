@@ -48,6 +48,27 @@
 </div>
 <div id="waterBathCountdown" class="hidden">03:00</div>
 
+<!-- SLIDER TOGGLE BUTTON -->
+<button id="stepToggleBtn">☰</button>
+
+<!-- SLIDING STEP SIDEBAR -->
+<div id="stepSidebar">
+  <h3>Experiment Progress</h3>
+
+  <ul id="stepList">
+    <li data-step="1">Butter slicing</li>
+    <li data-step="2">Weighing setup</li>
+    <li data-step="3">Empty flask</li>
+    <li data-step="4">Tare balance</li>
+    <li data-step="5">Add butter</li>
+    <li data-step="6">Final weighing</li>
+    <li data-step="7">Solvent addition</li>
+    <li data-step="8">Water bath</li>
+    <li data-step="9">Indicator</li>
+    <li data-step="10">Titration</li>
+    <li data-step="11">Calculation</li>
+  </ul>
+</div>
 
 
 
@@ -58,6 +79,7 @@
         />
            <div class="stepBox">
             <span id="step" style="color: rgb(187, 4, 4);"">Step 1:</span> Click or touch the knife to cut a small piece of butter.
+            
          </div>
 
         <div id="pipette">
@@ -201,7 +223,7 @@
         <div id="waterBathWrapper">
   <div id="waterBath">
     <img
-      src="./images/waterBath.png"
+      src="./images/hotMetalPlate_1.png"
       alt="Water bath machine"
       title="waterBath"
       id="waterBathImage"
