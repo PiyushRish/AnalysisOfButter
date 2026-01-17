@@ -13,30 +13,64 @@
   
 
   <!-- CALC MODAL -->
-  <div id="calcModal" class="modal-hidden">
-    <div class="chalkboard">
-      <h2>Observation Table & Calculation</h2>
-      <div class="chalk-content">
-        <table class="obs-table">
-          <thead><tr><th>Butter Sample</th><th>Vol. of NaOH (V ml)</th></tr></thead>
-          <tbody><tr><td>S1</td><td id="valV">--</td></tr></tbody>
-        </table>
-        <p id="calcStep1">...</p>
-        <p id="calcResult" class="final-result">Result: -- %</p>
+<div id="calcModal" class="modal-hidden">
+  <div class="chalkboard">
+    <h2>Observation Table & Calculation</h2>
 
-        <pre>formula: a2 + b2 = 2ab
-        
-        </pre>
-        <input type="text" onchange={}/>
-        <button>Check Your answer</button>
+    <div class="chalk-content">
+
+      <table class="obs-table">
+        <thead>
+          <tr>
+            <th>Butter Sample</th>
+            <th>Vol. of NaOH (V ml)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>S1</td>
+            <td id="valV">--</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- <p id="calcStep1" class="chalk-text">...</p> -->
+      <button id="result" class="chalk-btn">Result</button>
+      <p id="calcResult" class="final-result">Result: -- %</p>
+
+      <button id="formulaButton" class="chalk-btn">Show Formula</button>
+
+     <div class="formula-box">
+  <div class="formula-title">Formula:</div>
+
+  <div class="fraction">
+    <div class="numerator">V × N × 0.282</div>
+    <div class="fraction-line"></div>
+    <div class="denominator">W</div>
+  </div>
+
+  <div class="formula-where">
+    <p><b>Where,</b></p>
+    <p>V = Volume of NaOH used (ml)</p>
+    <p>N = Normality of NaOH (0.1N)</p>
+    <p>W = Weight of butter sample (g)</p>
+    <p>0.282 = Milliequivalent weight of Oleic Acid</p>
+  </div>
+</div>
 
 
-
-        <button id="btnRestart">Restart Experiment</button>
-
+      <div class="answer-box">
+        <input type="number" id="userAnswer" placeholder="Enter your answer (%)" />
+        <button id="checkBtn" class="chalk-btn">Check Your Answer</button>
+        <div id="answerCheck"></div>
       </div>
+
+      <button id="btnRestart">Restart Experiment</button>
+
     </div>
   </div>
+</div>
+
 <div id="left">
         <!--  -->
 
@@ -85,14 +119,14 @@
         <tr>
           <th>Butter</th>
           <th>NaOH</th>
-          <th>Phenolphthalein</th>
+          <!-- <th>Phenolphthalein</th> -->
         </tr>
       </thead>
       <tbody>
         <tr>
           <td id="butterStatus">—</td>
           <td id="naohStatus">—</td>
-          <td id="phenolStatus">—</td>
+          <!-- <td id="phenolStatus">—</td> -->
         </tr>
       </tbody>
     </table>
