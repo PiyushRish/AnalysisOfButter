@@ -1,359 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Butter Analysis</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main id="container">
-      <!-- LEFT SIDE -->
-        <!-- INTRO OVERLAY -->
-  
 
-  <!-- CALC MODAL -->
-<div id="calcModal" class="modal-hidden">
-  <div class="chalkboard">
-    <h2>Observation Table & Calculation</h2>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Butter Analysis</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-    <div class="chalk-content">
-
-      <table class="obs-table">
-        <thead>
-          <tr>
-            <th>Butter Sample</th>
-            <th>Vol. of NaOH (V ml)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>S1</td>
-            <td id="valV">--</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- <p id="calcStep1" class="chalk-text">...</p> -->
-      <button id="result" class="chalk-btn">Result</button>
-      <p id="calcResult" class="final-result">Result: -- %</p>
-
-      <button id="formulaButton" class="chalk-btn">Show Formula</button>
-
-     <div class="formula-box">
-  <div class="formula-title">Formula:</div>
-
-  <div class="fraction">
-    <div class="numerator">V × N × 0.282</div>
-    <div class="fraction-line"></div>
-    <div class="denominator">W</div>
-  </div>
-
-  <div class="formula-where">
-    <p><b>Where,</b></p>
-    <p>V = Volume of NaOH used (ml)</p>
-    <p>N = Normality of NaOH (0.1N)</p>
-    <p>W = Weight of butter sample (g)</p>
-    <p>0.282 = Milliequivalent weight of Oleic Acid</p>
-  </div>
-</div>
+<body>
+  <main id="container">
+    <!-- LEFT SIDE -->
+    <!-- INTRO OVERLAY -->
 
 
-      <div class="answer-box">
-        <input type="number" id="userAnswer" placeholder="Enter your answer (%)" />
-        <button id="checkBtn" class="chalk-btn">Check Your Answer</button>
-        <div id="answerCheck"></div>
+    <!-- CALC MODAL -->
+    <div id="calcModal" class="modal-hidden">
+      <div class="chalkboard">
+        <h2>Observation Table & Calculation</h2>
+
+        <div class="chalk-content">
+
+          <table class="obs-table">
+            <thead>
+              <tr>
+                <th>Butter Sample</th>
+                <th>Vol. of NaOH (V ml)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>S1</td>
+                <td id="valV">--</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- <p id="calcStep1" class="chalk-text">...</p> -->
+          <button id="result" class="chalk-btn">Result</button>
+          <p id="calcResult" class="final-result">Result: -- %</p>
+
+          <button id="formulaButton" class="chalk-btn">Show Formula</button>
+
+          <div class="formula-box">
+            <div class="formula-title">Formula:</div>
+
+            <div class="fraction">
+              <div class="numerator">V × N × 0.282</div>
+              <div class="fraction-line"></div>
+              <div class="denominator">W</div>
+            </div>
+
+            <div class="formula-where">
+              <p><b>Where,</b></p>
+              <p>V = Volume of NaOH used (ml)</p>
+              <p>N = Normality of NaOH (0.1N)</p>
+              <p>W = Weight of butter sample (g)</p>
+              <p>0.282 = Milliequivalent weight of Oleic Acid</p>
+            </div>
+          </div>
+
+
+          <div class="answer-box">
+            <input type="number" id="userAnswer" placeholder="Enter your answer (%)" />
+            <button id="checkBtn" class="chalk-btn">Check Your Answer</button>
+            <div id="answerCheck"></div>
+          </div>
+
+          <button id="btnRestart">Restart Experiment</button>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="left">
+      <!--  -->
+
+      <div id="elementLabel" class="label-hidden"></div>
+
+
+      <!-- EXPERIMENT INFO ON GREENBOARD -->
+      <!-- EXPERIMENT INFORMATION TEXT -->
+      <div id="experimentInfo">
+
+        <p id="labName">Dairy Technology Lab</p>
+
+        <p id="experimentNumber">Experiment No. 6</p>
+
+        <p id="experimentAim">
+          Aim: To determine the % of free fatty acids in butter by titration.
+        </p>
+
+      </div>
+      <div id="waterBathCountdown" class="hidden">03:00</div>
+
+      <!-- SLIDER TOGGLE BUTTON -->
+      <button id="stepToggleBtn">☰</button>
+
+      <!-- SLIDING STEP SIDEBAR -->
+      <div id="stepSidebar">
+        <h3>Experiment Progress</h3>
+
+        <ul id="stepList">
+          <li data-step="1">Butter slicing</li>
+          <li data-step="2">Weighing setup</li>
+          <li data-step="3">Empty flask</li>
+          <li data-step="4">Tare balance</li>
+          <li data-step="5">Add butter</li>
+          <li data-step="6">Final weighing</li>
+          <li data-step="7">Solvent addition</li>
+          <li data-step="8">Water bath</li>
+          <li data-step="9">Indicator</li>
+          <li data-step="10">Titration</li>
+          <li data-step="11">Calculation</li>
+        </ul>
+
+        <div class="sidebar-table-wrapper">
+          <table class="sidebar-table">
+            <thead>
+              <tr>
+                <th>Butter</th>
+                <th>NaOH</th>
+                <!-- <th>Phenolphthalein</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="butterStatus">—</td>
+                <td id="naohStatus">—</td>
+                <!-- <td id="phenolStatus">—</td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <button id="btnRestart">Restart Experiment</button>
-
-    </div>
-  </div>
-</div>
-
-<div id="left">
-        <!--  -->
-
-<div id="elementLabel" class="label-hidden"></div>
 
 
-<!-- EXPERIMENT INFO ON GREENBOARD -->
-<!-- EXPERIMENT INFORMATION TEXT -->
-<div id="experimentInfo">
-
-  <p id="labName">Dairy Technology Lab</p>
-
-  <p id="experimentNumber">Experiment No. 6</p>
-
-  <p id="experimentAim">
-    Aim: To determine the % of free fatty acids in butter by titration.
-  </p>
-
-</div>
-<div id="waterBathCountdown" class="hidden">03:00</div>
-
-<!-- SLIDER TOGGLE BUTTON -->
-<button id="stepToggleBtn">☰</button>
-
-<!-- SLIDING STEP SIDEBAR -->
-<div id="stepSidebar">
-  <h3>Experiment Progress</h3>
-
-  <ul id="stepList">
-    <li data-step="1">Butter slicing</li>
-    <li data-step="2">Weighing setup</li>
-    <li data-step="3">Empty flask</li>
-    <li data-step="4">Tare balance</li>
-    <li data-step="5">Add butter</li>
-    <li data-step="6">Final weighing</li>
-    <li data-step="7">Solvent addition</li>
-    <li data-step="8">Water bath</li>
-    <li data-step="9">Indicator</li>
-    <li data-step="10">Titration</li>
-    <li data-step="11">Calculation</li>
-  </ul>
-
-  <div class="sidebar-table-wrapper">
-    <table class="sidebar-table">
-      <thead>
-        <tr>
-          <th>Butter</th>
-          <th>NaOH</th>
-          <!-- <th>Phenolphthalein</th> -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td id="butterStatus">—</td>
-          <td id="naohStatus">—</td>
-          <!-- <td id="phenolStatus">—</td> -->
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-
-        <img
-          id="workingTable"
-          src="./images/bgImageNew.png"
-          alt="Laboratory work table background"
-        />
-           <div class="stepBox">
-            <span id="step" style="color: rgb(187, 4, 4);"">Step 1:</span> Click or touch the knife to cut a small piece of butter.
+      <img id="workingTable" src="./images/bgImageNew.png" alt="Laboratory work table background" />
+      <div class="stepBox">
+        <span id="step" style="color: rgb(187, 4, 4);"">Step 1:</span> Click or touch the knife to cut a small piece of butter.
             
          </div>
 
-        <div id="pipette">
-          <img
-            src="./images/pippete.png"
-            alt="Pipette"
-            id="pipette-w"
-            title="Pipette"
-          />
-          <img
-            src="./images/pipette-acid.png"
-            alt="Pipette with solution"
-            id="diethylEtherSolution"
-          />
-                     <img src="./images/drop.png" alt="" id="drop1"/>
+        <div id="pipette" data-tooltip="Dropper Pipette">
+          <img src="./images/pippete.png" alt="Pipette" id="pipette-w" title="Pipette" />
+          <img src="./images/pipette-acid.png" alt="Pipette with solution" id="diethylEtherSolution" />
+          <img src="./images/drop.png" alt="" id="drop1" />
 
+      </div>
+
+      <div id="weightingMachineWrapper" data-tooltip="Digital Balance">
+        <div id="weightingMachine">
+          <img src="./images/wheighing-machine.png" alt="Digital weighing machine" id="weightingMachineImage"
+            title="Weighting Machine" />
+          <div id="screen"></div>
+          <button id="power">Power</button>
+          <button id="tare">Tare</button>
         </div>
-
-        <div id="weightingMachineWrapper">
-          <div id="weightingMachine">
-            <img
-              src="./images/wheighing-machine.png"
-              alt="Digital weighing machine"
-              id="weightingMachineImage"
-              title="Weighting Machine"
-            />
-            <div id="screen"></div>
-            <button id="power">Power</button>
-            <button id="tare">Tare</button>
-          </div>
-        </div>
+      </div>
 
 
 
 
 
-        <div id="stand">
-          <img src="./images/stand.png" alt="" id="standImage" title="stand" />
-                     
-                       
-          <!-- 
+      <div id="stand" data-tooltip="Burette Stand">
+        <img src="./images/stand.png" alt="" id="standImage" title="stand" />
+
+
+        <!-- 
          -->
 
-        </div>
-        <img src="./images/Burette-nob.png" alt="" id="buretteNozzel"/>
-         <img
-            src="./images/burette.png"
-            alt=""
-            id="burette"
-            title="burette"
-          /> 
-           <img src="./images/buretteSolution.png" alt="" id="buretteSolution"/> 
-           <img src="./images/drop.png" alt="" id="drop"/>
+      </div>
+      <img src="./images/Burette-nob.png" alt="" id="buretteNozzel" />
+      <img src="./images/burette.png" alt="" id="burette" title="burette" />
+      <img src="./images/buretteSolution.png" alt="" id="buretteSolution" />
+      <img src="./images/drop.png" alt="" id="drop" />
 
-      
 
-        <div id="Diethyl-Ether" class="reagent-bottle">
-          <img
-            src="./images/NeutralisedEthanol.png"
-            alt="Diethyl-Ether bottle"
-            id="DiethylEtherImage"
-            title="Diethyl-Ether"
-          />
-          <img
-            src="./images/sulphuric-acid-solution.png"
-            alt="Diethyl Ether solution"
-            id="DiethylEtherSolutionImage"
-          />
-           <img
-            src="./images/bottleSolutionPouring.png"
-            alt="Diethyl Ether solution"
-            id="bottleSolutionPouringImage"
-          />
-        </div> 
 
-         <div id="Petroleum-Ether" class="reagent-bottle">
-          <img
-            src="./images/indicator.png"
-            alt="Petroleum-Ether bottle"
-            id="PetroleumEtherImage"
-            title="PetroleumEther"
-          />
-          <img
-            src="./images/sulphuric-acid-solution.png"
-            alt="Petroleum Ether solution"
-            id="PetroleumEtherSolutionImage"
-          />
-        </div> 
-        <!-- 
+      <div id="Diethyl-Ether" data-tooltip="Neutralised Ethanol" class="reagent-bottle">
+        <img src="./images/NeutralisedEthanol.png" alt="Diethyl-Ether bottle" id="DiethylEtherImage"
+          title="Diethyl-Ether" />
+        <img src="./images/sulphuric-acid-solution.png" alt="Diethyl Ether solution" id="DiethylEtherSolutionImage" />
+        <img src="./images/bottleSolutionPouring.png" alt="Diethyl Ether solution" id="bottleSolutionPouringImage" />
+      </div>
+
+      <div id="Petroleum-Ether" data-tooltip="Phenolphthalein Indicator" class="reagent-bottle">
+        <img src="./images/indicator.png" alt="Petroleum-Ether bottle" id="PetroleumEtherImage"
+          title="PetroleumEther" />
+        <img src="./images/sulphuric-acid-solution.png" alt="Petroleum Ether solution"
+          id="PetroleumEtherSolutionImage" />
+      </div>
+      <!-- 
           END OF FIX
         -->
-        <!-- <img src="./images/pouring.png" alt="pouring" id="bottlePouring" /> -->
+      <!-- <img src="./images/pouring.png" alt="pouring" id="bottlePouring" /> -->
 
-        <div id="plate">
-          <img
-            src="./images/plate.png"
-            alt="Empty plate"
-            id="plateImage"
-            title="plate"
-          />
+      <div id="plate" data-tooltip="Porcelain Plate">
+        <img src="./images/plate.png" alt="Empty plate" id="plateImage" title="plate" />
+      </div>
+
+      <div id="knife" data-tooltip="Knife">
+        <img src="./images/knife.png" alt="Knife" id="knifeImage" title="knife" />
+      </div>
+      <div id="spatula" data-tooltip="Spatula">
+        <img src="./images/spatula.png" alt="Spatula" id="spatulaImage" title="spatula" />
+      </div>
+
+      <div id="pipettePouring" data-tooltip="Pouring">
+        <img src="./images/pouring.png" alt="Pouring stream" id="pouring" />
+        <img src="./images/ButterPouring.png" alt="Pouring butter" id="pouringButter" />
+      </div>
+      <div id="porcelainDish" data-tooltip="Porcelain Dish">
+        <img src="./images/porcelaindish.png" alt="Porcelain dish" id="porcelainDishImage" />
+        <img src="./images/porcelainDishSolution.png" alt="Solution in porcelain dish"
+          id="porcelainDishSolutionImage" />
+      </div>
+
+      <div id="waterBathWrapper" data-tooltip="Water Bath / Hot Plate">
+        <div id="waterBath">
+          <img src="./images/hotMetalPlate_1.png" alt="Water bath machine" title="waterBath" id="waterBathImage" />
+
+          <!-- Temperature Displays -->
+          <div id="waterBathCurrentTemp">--°C</div>
+          <div id="waterBathSetTemp">SET: --°C</div>
+
+          <!-- Controls -->
+          <button id="waterBathPower">Power</button>
+          <button id="tempUp">▲</button>
+          <button id="tempDown">▼</button>
+          <button id="waterBathStart">Start</button>
         </div>
-
-        <div id="knife">
-          <img
-            src="./images/knife.png"
-            alt="Knife"
-            id="knifeImage"
-            title="knife"
-          />
-        </div>
-        <div id="spatula">
-          <img
-            src="./images/spatula.png"
-            alt="Spatula"
-            id="spatulaImage"
-            title="spatula"
-          />
-        </div>
-
-        <div id="pipettePouring">
-          <img src="./images/pouring.png" alt="Pouring stream" id="pouring" />
-          <img
-            src="./images/ButterPouring.png"
-            alt="Pouring butter"
-            id="pouringButter"
-          />
-        </div>
-        <div id="porcelainDish">
-          <img
-            src="./images/porcelaindish.png"
-            alt="Porcelain dish"
-            id="porcelainDishImage"
-          />
-          <img
-            src="./images/porcelainDishSolution.png"
-            alt="Solution in porcelain dish"
-            id="porcelainDishSolutionImage"
-          />
-        </div>
-
-        <div id="waterBathWrapper">
-  <div id="waterBath">
-    <img
-      src="./images/hotMetalPlate_1.png"
-      alt="Water bath machine"
-      title="waterBath"
-      id="waterBathImage"
-    />
-
-    <!-- Temperature Displays -->
-    <div id="waterBathCurrentTemp">--°C</div>
-    <div id="waterBathSetTemp">SET: --°C</div>
-
-    <!-- Controls -->
-    <button id="waterBathPower">Power</button>
-    <button id="tempUp">▲</button>
-    <button id="tempDown">▼</button>
-    <button id="waterBathStart">Start</button>
-  </div>
-</div>
+      </div>
 
 
-       
-        <div id="flask">
-          <img
-            src="./images/12.png"
-            alt="Conical flask"
-            id="flaskImage"
-            title="flask"
-          />
-          <img
-            src="./images/flaskSolution.png"
-            alt="Melted butterk"
-            id="butterMelted"
-          />
-          <img
-            src="./images/butterflask.png"
-            alt="Butter in flask"
-            id="flaskButter"
-          />
-        </div>
-        <div id="cylinder50ml">
-          <img
-            src="./images/measuringCylinder50ml.png"
-            alt="MeasringCylinder"
-            id="cylinderImage"
-            title="Measuring Cylinder"
-          />
-          
-           <img
-            src="./images/measuring-cylinder-solution.png"
-            alt="Measuring Cylinder"
-            id="cylinderSolution"
-          />
-          <!-- <img
+
+      <div id="flask" data-tooltip="Conical Flask (250 ml)">
+        <img src="./images/12.png" alt="Conical flask" id="flaskImage" title="flask" />
+        <img src="./images/flaskSolution.png" alt="Melted butterk" id="butterMelted" />
+        <img src="./images/butterflask.png" alt="Butter in flask" id="flaskButter" />
+      </div>
+      <div id="cylinder50ml" data-tooltip="Measuring Cylinder (50 ml)">
+        <img src="./images/measuringCylinder50ml.png" alt="MeasringCylinder" id="cylinderImage"
+          title="Measuring Cylinder" />
+
+        <img src="./images/measuring-cylinder-solution.png" alt="Measuring Cylinder" id="cylinderSolution" />
+        <!-- <img
             src="./images/butterflask.png"
             alt="Butter in flask"
             id="flaskButter"
           /> -->
-        </div>
-        <div id="cylinderPouring">
-          <img src="./images/pouring.png" alt="Pouring" id="pouringCylinder" />
-          <!-- <img
+      </div>
+      <div id="cylinderPouring">
+        <img src="./images/pouring.png" alt="Pouring" id="pouringCylinder" />
+        <!-- <img
             src="./images/ButterPouring.png"
             alt="Pouring butter"
             id="pouringButter"
           /> -->
-        
-      
 
-          <!-- <div id="beaker">
+
+
+        <!-- <div id="beaker">
           <img
             src="./images/beaker.png"
             alt="flask"
@@ -361,56 +270,59 @@
             title="flask"
           />
           <img src="./images/butterBeaker.png" alt="peantu butter" id="butterMeltedBeaker"/> -->
-          <!-- <img src="./images/ButterAndwater.png" alt="" id="butterMelted1"/> -->
-          <!-- <img src="./images/butterflask.png" alt="" id="flaskButter"/> -->
-        </div>
-
-        <div class="instrument" id="butter-block">
-          <div class="butter-shine"></div>
-        </div>
-        <div id="melted-butter"></div>
-        <div class="instrument" id="butter-slice" class="butter"></div>
-        <div id="butter-slice-1" class="butter"></div>
-         <div class="next">
-          <button id="btnNext">Next</button>    
-        </div>
-        <div class="next2">
-          <button id="btnNext2">Next</button>    
-        </div>
-        <div class="next3">
-          <button id="btnNext3">Next</button>
+        <!-- <img src="./images/ButterAndwater.png" alt="" id="butterMelted1"/> -->
+        <!-- <img src="./images/butterflask.png" alt="" id="flaskButter"/> -->
       </div>
-       <div class="next4">
-          <button id="btnNext4">Next</button>
+
+      <div class="instrument" id="butter-block">
+        <div class="butter-shine"></div>
       </div>
-      
+      <div id="melted-butter"></div>
+      <div class="instrument" id="butter-slice" class="butter"></div>
+      <div id="butter-slice-1" class="butter"></div>
+      <div class="next">
+        <button id="btnNext">Next</button>
+      </div>
+      <div class="next2">
+        <button id="btnNext2">Next</button>
+      </div>
+      <div class="next3">
+        <button id="btnNext3">Next</button>
+      </div>
+      <div class="next4">
+        <button id="btnNext4">Next</button>
+      </div>
 
-     
-  
-        </div>
-        <!-- START BUTTON -->
-<div id="startBtnWrapper">
-  <button id="startExperimentBtn">Start</button>
-</div>
 
-<!-- <div id="completedStepBox">
+
+
+    </div>
+    <!-- START BUTTON -->
+    <div id="startBtnWrapper">
+      <button id="startExperimentBtn">Start</button>
+    </div>
+
+    <!-- <div id="completedStepBox">
 
 </div> -->
 
 
-       
-      </div>
-      <!-- DEBUG PANEL (REMOVE BEFORE FINAL SUBMISSION) -->
-<div id="debugPanel">
-  <button onclick="jumpToStep(9)">Step 9</button>
-  <button onclick="jumpToStep(8)">Step 8</button>
-  <button onclick="jumpToStep(10)">Step 10</button>
-  <button onclick="jumpToStep(17)">Step 17</button>
-  <button onclick="jumpToStep(18)">Step 18</button>
-</div>
 
-      
-    </main>
-    <script src="./script.js"></script>
-  </body>
+    </div>
+    <!-- DEBUG PANEL (REMOVE BEFORE FINAL SUBMISSION) -->
+    <div id="debugPanel">
+      <button onclick="jumpToStep(9)">Step 9</button>
+      <button onclick="jumpToStep(8)">Step 8</button>
+      <button onclick="jumpToStep(10)">Step 10</button>
+      <button onclick="jumpToStep(17)">Step 17</button>
+      <button onclick="jumpToStep(18)">Step 18</button>
+    </div>
+
+
+  </main>
+  <!-- Global tooltip — outside #container so overflow:hidden never clips it -->
+  <div id="global-tooltip"></div>
+  <script src="./script.js"></script>
+</body>
+
 </html>

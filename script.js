@@ -186,27 +186,7 @@ function updateWaterBathScreen() {
   waterBathSetTemp.innerText = `SET: ${setTemp}°C`;
 }
 
-  // --- INSTRUCTION LOGIC ---
-  // --- START BUTTON LOGIC ---
-const startExperimentBtn = document.getElementById("startExperimentBtn");
 
-if (startExperimentBtn) {
-  startExperimentBtn.addEventListener("click", async () => {
-
-    // Hide start button
-    startExperimentBtn.style.display = "none";
-
-    // Start experiment sequence
-    if (typeof runIntroductionSequence === "function") {
-      await runIntroductionSequence();
-    }
-
-    // Start at step 1
-    experimentStep = 1;
-    updateInstruction(1);
-
-  });
-}
 
   function updateInstruction(step) {
     const stepBox = document.querySelector(".stepBox");
@@ -238,11 +218,13 @@ if (startExperimentBtn) {
     stepBox.innerHTML = `<span style="color: rgb(187, 4, 4);">Instruction:</span> ${msg}`;
   }
   const stepToggleBtn = document.getElementById("stepToggleBtn");
-const stepSidebar = document.getElementById("stepSidebar");
+  const stepSidebar = document.getElementById("stepSidebar");
 
-stepToggleBtn.addEventListener("click", () => {
-  stepSidebar.classList.toggle("open");
-});
+  if (stepToggleBtn) {
+    stepToggleBtn.addEventListener("click", () => {
+      if (stepSidebar) stepSidebar.classList.toggle("open");
+    });
+  }
 
   // --- DEBUG STEP JUMP (NO CONSOLE REQUIRED) ---
 window.jumpToStep = function(step) {
@@ -266,31 +248,20 @@ window.jumpToStep = function(step) {
 };
 
 
-  // --- 1. INTRO & START FUNCTIONALITY ---
-  if (btnStart) {
-    btnStart.addEventListener("click", async () => {
-      if (introOverlay) {
-        introOverlay.style.opacity = "0";
-        await wait(800);
-        introOverlay.style.display = "none";
-      }
-
-      await runIntroductionSequence();
-
+  // Start button — instant reveal, no intro animation
+  const startExperimentBtn = document.getElementById("startExperimentBtn");
+  if (startExperimentBtn) {
+    startExperimentBtn.addEventListener("click", () => {
+      startExperimentBtn.style.display = "none";
+      // Reveal only the initial instruments needed for step 1
+      ["butter-block", "knife", "plate", "flask", "spatula", "weightingMachineWrapper"]
+        .forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = "block";
+        });
       experimentStep = 1;
       updateInstruction(1);
-
-      const stepBox = document.querySelector(".stepBox");
-      if (stepBox) {
-        stepBox.style.transform = "scale(1.1)";
-        await wait(200);
-        stepBox.style.transform = "scale(1)";
-      }
     });
-  } else {
-    // Fallback if no button
-    experimentStep = 1;
-    updateInstruction(1);
   }
 
   async function runIntroductionSequence() {
@@ -1054,7 +1025,7 @@ waterBathStart.addEventListener("click", async () => {
     }
   }
   console.log(btnNext0,"btnNext0");
-  btnNext3.addEventListener("click", () => setupScene("12"));
+  if (btnNext3) btnNext3.addEventListener("click", () => setupScene("12"));
   if (btnNext0) btnNext0.addEventListener("click", () => setupScene("start"));
   if (btnNext2) btnNext2.addEventListener("click", () => setupScene("nextButton2"));
   if (btnNext4) btnNext4.addEventListener("click", () => setupScene("nextButton4"));
@@ -1264,3 +1235,43 @@ if (startExperimentBtn) {
     }
   });
 }
+
+//  BODY-LEVEL TOOLTIP for butter (bypasses container overflow:hidden) 
+(function() {
+  const tip = document.getElementById("global-tooltip");
+  if (!tip) return;
+
+  const butterTargets = [
+    { id: "butter-block",   label: "Butter Sample" },
+    { id: "butter-slice-1", label: "Butter Slice"  },
+  ];
+
+  let hideTimer = null;
+
+  function showTip(label, x, y) {
+    clearTimeout(hideTimer);
+    tip.textContent = label;
+    tip.style.left = x + "px";
+    tip.style.top  = y + "px";
+    requestAnimationFrame(() => {
+      const w = tip.offsetWidth;
+      const h = tip.offsetHeight;
+      tip.style.left = (x - w / 2) + "px";
+      tip.style.top  = (y - h - 16) + "px";
+      tip.classList.add("visible");
+    });
+  }
+
+  function hideTip() {
+    tip.classList.remove("visible");
+    hideTimer = setTimeout(() => { tip.textContent = ""; }, 300);
+  }
+
+  butterTargets.forEach(function(item) {
+    const el = document.getElementById(item.id);
+    if (!el) return;
+    el.addEventListener("mouseenter", function(e) { showTip(item.label, e.clientX, e.clientY); });
+    el.addEventListener("mousemove",  function(e) { showTip(item.label, e.clientX, e.clientY); });
+    el.addEventListener("mouseleave", hideTip);
+  });
+})();
