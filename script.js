@@ -349,7 +349,7 @@ window.jumpToStep = function(step) {
 
   // --- FLASK LISTENER ---
   flask.addEventListener("click", async () => {
-    const originalTop = "55%";
+    const originalTop = "calc(82% - 18vw)";
     const originalLeft = "40%";
 
     // STEP 3: Move Empty Flask to Machine
@@ -357,14 +357,13 @@ window.jumpToStep = function(step) {
       console.log("flask step", experimentStep);
       experimentStep = -1; // Lock
 
-      flask.style.top = "22.5%";
+      flask.style.top = "calc(54.5% - 18vw)";
       await wait(1000);
       flask.style.left = "11%";
       await wait(1000);
 
       // Value from your logic: calc(69% - 18vw)
       flask.style.top = "calc(69% - 18vw)";
-
       await wait(1000);
       weightingMachineScreen.innerText = "250.00g";
       console.log("Step 3 Complete: Empty Flask Weighed");
@@ -378,8 +377,8 @@ window.jumpToStep = function(step) {
       experimentStep = -1; // Lock
 
       // Lift both
-      flask.style.top = "10.5%";
-      butterSlice.style.top = "41.8%";
+      flask.style.top = "calc(48% - 18vw)";
+      butterSlice.style.top = "42%";
       await wait(1000);
 
       // Move both
@@ -389,7 +388,7 @@ window.jumpToStep = function(step) {
 
       // Drop - Values from your logic
       flask.style.top = "calc(90% - 18vw)";
-      butterSlice.style.top = "83.6%";
+      butterSlice.style.top = "84%";
 
       await wait(1000);
       console.log("Step 6 Complete: Filled Flask Weighed");
@@ -402,13 +401,13 @@ window.jumpToStep = function(step) {
     else if (experimentStep === 11) {
       console.log("flask step for the waterBath", experimentStep);
       experimentStep = -1; // Lock
-      flask.style.top = "-7%";
+      flask.style.top = "calc(31% - 18vw)";
       butterSlice.style.top = "25%";
       await wait(1000);
       flask.style.left = "11%";
       butterSlice.style.left = "14.7%";
       await wait(1000);
-      flask.style.top = "21.5%";
+      flask.style.top = "calc(59.5% - 18vw)";
       butterSlice.style.top = "53.5%";
       console.log("Step 10 Complete: Flask in Water Bath");
      next2.style.display="block";
@@ -419,7 +418,7 @@ window.jumpToStep = function(step) {
     else if (experimentStep === 9) {
       console.log("flask step", experimentStep);
       experimentStep = -1; // Lock
-      flask.style.top = "20%";
+      flask.style.top = "calc(52% - 18vw)";
       await wait(1000);
       flask.style.left = "25%";
       flask.style.transform = "rotate(-110deg)";
@@ -462,13 +461,13 @@ window.jumpToStep = function(step) {
       await wait(800);
 
       // 2. Move to position (Under Burette)
-      flask.style.top = "55%";
+      flask.style.top = "calc(87% - 18vw)";
       await wait(900);
       flask.style.left = "12%";
 
       // Wait for animation
       await wait(1000);
-      flask.style.top = "48%";
+      flask.style.top = "calc(80% - 18vw)";
 
       // Unlock next step (Titration)
       experimentStep = 18;
@@ -645,11 +644,11 @@ waterBathStart.addEventListener("click", async () => {
 
         // await wait(3000);
        
-        flask.style.top = "-10%";
+        flask.style.top = "calc(22% - 18vw)";
         await wait(1000);
         flask.style.left = "40%";
         await wait(1000);
-        flask.style.top = "55%";
+        flask.style.top = "calc(87% - 18vw)";
 
         experimentStep = 13;
         next3.style.display = "block";
@@ -1023,7 +1022,7 @@ waterBathStart.addEventListener("click", async () => {
       flask.style.display = "block";
       
       // Default position before Step 17 animation
-      flask.style.top = "55%";
+      flask.style.top = "calc(82% - 18vw)";
       flask.style.left = "40%";
       flask.style.transform = "scale(1)";
 
@@ -1041,17 +1040,7 @@ waterBathStart.addEventListener("click", async () => {
   // --- BURETTE TITRATION LOGIC (CORRECTED) ---
  
 if (buretteNozzel) {
-  buretteNozzel.addEventListener("click", async () => {
 
-    // Only allow during titration step
-    if (experimentStep !== 18) return;
-
-    /* ===============================
-    
-       TOGGLE: OPEN / CLOSE BURETTE
-    ================================ */
-
-   if (buretteNozzel) {
   buretteNozzel.addEventListener("click", async () => {
 
     if (experimentStep !== 18) return;
@@ -1060,12 +1049,16 @@ if (buretteNozzel) {
        OPEN BURETTE
     ======================= */
     if (!buretteOpen) {
+
       buretteOpen = true;
       buretteNozzel.style.transform = "rotate(60deg)";
       console.log("Burette opened");
 
       buretteInterval = setInterval(async () => {
-        if (isDropping) return;
+
+        // 🔴 STOP EVERYTHING if closed
+        if (!buretteOpen || isDropping) return;
+
         isDropping = true;
 
         // DROP animation
@@ -1076,19 +1069,37 @@ if (buretteNozzel) {
         drop.classList.add("drop-form");
         await wait(300);
 
+        // 🔴 If closed during animation, cancel
+        if (!buretteOpen) {
+          drop.style.display = "none";
+          isDropping = false;
+          return;
+        }
+
         drop.classList.remove("drop-form");
         drop.classList.add("drop-fall");
         await wait(800);
 
-        drop.style.display = "none";
-        dropVolume += 2.5;
-        buretteDropCount++;
-        naohUsed.innerText = `${buretteDropCount * 2.5} ml`;
-        console.log(`Drop count: ${buretteDropCount}`);
+        // 🔴 If closed before finishing fall
+        if (!buretteOpen) {
+          drop.style.display = "none";
+          isDropping = false;
+          return;
+        }
 
-        // ENDPOINT (ONLY VISUAL + CALC, NO STOP)
+        drop.style.display = "none";
+
+        // ✅ Increase volume ONLY if still open
+        if (buretteOpen) {
+          dropVolume += 2.5;
+          buretteDropCount++;
+          naohUsed.innerText = `${buretteDropCount * 2.5} ml`;
+          console.log(`Drop count: ${buretteDropCount}`);
+        }
+
+        // Endpoint (visual only)
         if (buretteDropCount === 3) {
-          console.log("Endpoint reached (color change)");
+          console.log("Endpoint reached");
 
           if (butterMelted) {
             butterMelted.style.filter =
@@ -1096,38 +1107,37 @@ if (buretteNozzel) {
           }
 
           await wait(800);
-          
-
-          // experimentStep = 19;
           updateInstruction(19);
         }
 
         isDropping = false;
-      }, 1200); // continuous flow
+
+      }, 1200);
     }
 
     /* ======================
        CLOSE BURETTE (MANUAL)
     ======================= */
     else {
+
       buretteOpen = false;
       buretteNozzel.style.transform = "rotate(0deg)";
       console.log("Burette closed manually");
-      showCalculation();
 
+      // 🛑 STOP interval immediately
       if (buretteInterval) {
         clearInterval(buretteInterval);
         buretteInterval = null;
       }
+
+      // 🛑 STOP current animation
+      drop.style.display = "none";
+      drop.classList.remove("drop-form", "drop-fall");
+
+      isDropping = false;
+
+      showCalculation();
     }
-  });
-}
-
-
-
-    // ---------- CLOSE ----------
-    
-    
   });
 }
 

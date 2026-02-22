@@ -105,6 +105,7 @@ body {
   font-size: 1.2vmin;
   overflow-y: auto;
 }
+
 .meltingEffect {
   transition: filter 30s linear;
   filter: brightness(1.3) saturate(0.6) sepia(0.3);
@@ -306,8 +307,10 @@ body {
 
 #screen {
   display: flex;
-   justify-content: center;   /* horizontal center */
-  align-items: center;       /* vertical center */
+  justify-content: center;
+  /* horizontal center */
+  align-items: center;
+  /* vertical center */
   text-align: center;
   position: absolute;
   top: 44%;
@@ -542,7 +545,7 @@ body {
   cursor: pointer;
   position: absolute;
   aspect-ratio: 5/9;
-  top: 50%;
+  top: calc(82% - 18vw);
   left: 40%;
   width: 10%;
   z-index: 15;
@@ -2151,24 +2154,30 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-wrap: nowrap;        /* Prevent wrapping */
+  flex-wrap: nowrap;
+  /* Prevent wrapping */
 }
+
 .answer-box {
   display: flex;
   align-items: center;
   gap: 8px;
 }
+
 .answer-box input {
   width: 80px;
 }
+
 .answer-option {
   padding: 2px 6px;
   transition: all 0.3s ease;
 }
 
 #answerStatus {
-  white-space: nowrap;      /* Prevent line break in text */
+  white-space: nowrap;
+  /* Prevent line break in text */
 }
+
 .highlight {
   background-color: yellow;
   border-radius: 4px;
@@ -2518,26 +2527,28 @@ body {
   font-size: 1.8vmin;
   text-align: left;
 }
+
 /*  GLOBAL BODY-LEVEL TOOLTIP (for elements inside overflow:hidden)  */
 #global-tooltip {
   position: fixed;
   z-index: 99999;
   pointer-events: none;
   padding: 0.6em 1.4em;
-  background: linear-gradient(135deg, rgba(8,28,16,0.97) 0%, rgba(18,55,30,0.97) 100%);
+  background: linear-gradient(135deg, rgba(8, 28, 16, 0.97) 0%, rgba(18, 55, 30, 0.97) 100%);
   color: #a8ffb0;
   font-family: 'Segoe UI', Arial, sans-serif;
   font-size: clamp(12px, 1.6vmin, 17px);
   font-weight: 700;
   letter-spacing: 0.05em;
   border-radius: 20px;
-  border: 1.5px solid rgba(46,204,113,0.65);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.55), 0 0 0 2px rgba(46,204,113,0.15);
+  border: 1.5px solid rgba(46, 204, 113, 0.65);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55), 0 0 0 2px rgba(46, 204, 113, 0.15);
   white-space: nowrap;
   opacity: 0;
   transform: translateY(6px);
   transition: opacity 0.22s ease, transform 0.22s ease;
 }
+
 #global-tooltip.visible {
   opacity: 1;
   transform: translateY(0);
