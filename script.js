@@ -98,7 +98,6 @@ if (result && finalResult) {
 // ===== ANSWER CHECK LOGIC =====
 const checkBtn = document.getElementById("checkBtn");
 const userAnswer = document.getElementById("userAnswer");
-const answerCheck = document.getElementById("answerCheck");
 
 // You already use these values in showCalculation()
 // const CORRECT_V = dropVolume;
@@ -107,30 +106,37 @@ const answerCheck = document.getElementById("answerCheck");
 // const W = 5.0;
 // const FACTOR = 0.282;
 
-// const correctAnswer = ((CORRECT_V * N * FACTOR) / W);
-console.log("Correct Answer (for checking):", calResult);  
+const answerCheck = document.getElementById("answerCheck");
+const wrongText = document.getElementById("wrongText");
+const rightText = document.getElementById("rightText");
+
+const N = 0.1;
+const W = 5.0;
+const FACTOR = 0.282;
+const tolerance = 0.01;
 
 if (checkBtn) {
   checkBtn.addEventListener("click", () => {
+
     const studentValue = parseFloat(userAnswer.value);
+    const correctAnswer = ((dropVolume * N * FACTOR) / W) * 100;
 
     if (isNaN(studentValue)) {
-      answerCheck.innerText = "Please enter a number";
-      answerCheck.style.color = "yellow";
       return;
     }
 
-    if (studentValue === calResult) {
-      console.log("Student answer is correct.",studentValue, calResult);
-      answerCheck.innerText = "✅ Correct!";
-      answerCheck.style.color = "#2ecc71"; // green
+    // Remove previous highlights
+    wrongText.classList.remove("highlight");
+    rightText.classList.remove("highlight");
+
+    if (Math.abs(studentValue - correctAnswer) <= tolerance) {
+      rightText.classList.add("highlight");
     } else {
-      answerCheck.innerText = `❌ Wrong!`;
-      answerCheck.style.color = "red";
+      wrongText.classList.add("highlight");
     }
+
   });
 }
-
 
   // const mmBtn = elementId("mm");
   // const ssBtn = elementId("ss");
@@ -458,11 +464,11 @@ window.jumpToStep = function(step) {
       // 2. Move to position (Under Burette)
       flask.style.top = "55%";
       await wait(900);
-      flask.style.left = "12%";
+      flask.style.left = "11.5%";
 
       // Wait for animation
       await wait(1000);
-      flask.style.top = "52%";
+      flask.style.top = "48%";
 
       // Unlock next step (Titration)
       experimentStep = 18;
@@ -599,6 +605,7 @@ waterBathStart.addEventListener("click", async () => {
 
         butterMelted.classList.add("filling");
         await wait(1000);
+        butterSlice.style.display = "none";
          butterMelted.src = "./images/flaskButterWaterBath.png";
       }
     }, 200);
@@ -647,7 +654,7 @@ waterBathStart.addEventListener("click", async () => {
         experimentStep = 13;
         next3.style.display = "block";
         updateInstruction(12);
-      }, 5000);
+      }, 5);
     }
   }, 100);
 });
@@ -665,7 +672,7 @@ waterBathStart.addEventListener("click", async () => {
     await wait(1000);
     diethylEther.style.left = "44%";
     await wait(1000);
-    diethylEther.style.top = "calc(66% - 18vw)";
+    diethylEther.style.top = "calc(67% - 18vw)";
     diethylEther.style.transform = "rotate(-90deg)";
     await wait(1000);
     diethylEther.style.transform = "rotate(-100deg)";

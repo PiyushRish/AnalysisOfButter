@@ -14,64 +14,75 @@
     <!-- INTRO OVERLAY -->
 
 
-    <!-- CALC MODAL -->
-    <div id="calcModal" class="modal-hidden">
-      <div class="chalkboard">
-        <h2>Observation Table & Calculation</h2>
+<div id="calcModal" class="modal-hidden">
+  <div class="chalkboard">
+    <h2>Observation Table</h2>
 
-        <div class="chalk-content">
+    <div class="chalk-content">
 
-          <table class="obs-table">
-            <thead>
-              <tr>
-                <th>Butter Sample</th>
-                <th>Vol. of NaOH (V ml)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>S1</td>
-                <td id="valV">--</td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- Observation Table -->
+      <table class="obs-table">
+        <thead>
+          <tr>
+            <th>Butter sample</th>
+            <th>Vol. of NaOH used (ml)<br>(V)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>S1</td>
+            <td id="valV">--</td>
+          </tr>
+        </tbody>
+      </table>
 
-          <!-- <p id="calcStep1" class="chalk-text">...</p> -->
-          <button id="result" class="chalk-btn">Result</button>
-          <p id="calcResult" class="final-result">Result: -- %</p>
+      <!-- FFA Line with Answer Box INLINE -->
+      <div class="result-line">
+        FFA content (% Oleic acid) =
 
-          <button id="formulaButton" class="chalk-btn">Show Formula</button>
-
-          <div class="formula-box">
-            <div class="formula-title">Formula:</div>
-
-            <div class="fraction">
-              <div class="numerator">V × N × 0.282</div>
-              <div class="fraction-line"></div>
-              <div class="denominator">W</div>
-            </div>
-
-            <div class="formula-where">
-              <p><b>Where,</b></p>
-              <p>V = Volume of NaOH used (ml)</p>
-              <p>N = Normality of NaOH (0.1N)</p>
-              <p>W = Weight of butter sample (g)</p>
-              <p>0.282 = Milliequivalent weight of Oleic Acid</p>
-            </div>
-          </div>
-
-
-          <div class="answer-box">
-            <input type="number" id="userAnswer" placeholder="Enter your answer (%)" />
-            <button id="checkBtn" class="chalk-btn">Check Your Answer</button>
-            <div id="answerCheck"></div>
-          </div>
-
-          <button id="btnRestart">Restart Experiment</button>
-
+        <!-- Your Answer Box Used Here -->
+        <div class="answer-box">
+          <input type="number" id="userAnswer" placeholder="Enter your answer (%)" />
+          <button id="checkBtn" class="chalk-btn">Check Your Answer</button>
+          <div id="answerCheck"></div>
         </div>
+
+        <button id="formulaButton" class="chalk-btn">Formula</button>
+
+       <span id="answerStatus">
+  <span id="wrongText" class="answer-option">Wrong answer!</span> /
+  <span id="rightText" class="answer-option">Right answer!</span>
+</span>
       </div>
+
+      <!-- Formula Section -->
+      <div id="formulaSection" class="formula-box" style="display:none;">
+
+        <div style="text-align:center; margin-top:20px;">
+          <i>FFA content (% Oleic acid)</i> =
+          <span class="fraction">
+            <span class="numerator">V × N × 0.282</span>
+            <span class="fraction-line"></span>
+            <span class="denominator">W</span>
+          </span>
+          × 100
+        </div>
+
+        <div class="formula-where" style="margin-top:20px;">
+          <p>Where,</p>
+          <p><i>V</i> = Volume of NaOH used (ml)</p>
+          <p><i>N</i> = Normality of the NaOH solution (0.1N)</p>
+          <p><i>W</i> = Weight of the butter sample (g)</p>
+          <p>0.282 = The milliequivalent weight of oleic acid</p>
+        </div>
+
+      </div>
+
+      <button id="btnRestart">Restart Experiment</button>
+
     </div>
+  </div>
+</div>
 
     <div id="left">
       <!--  -->

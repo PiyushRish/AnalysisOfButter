@@ -2135,11 +2135,31 @@ body {
   background: #ffff00;
 }
 
+.result-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;        /* Prevent wrapping */
+}
 .answer-box {
   display: flex;
-  gap: 1vmin;
-  margin-top: 1.5vmin;
   align-items: center;
+  gap: 8px;
+}
+.answer-box input {
+  width: 80px;
+}
+.answer-option {
+  padding: 2px 6px;
+  transition: all 0.3s ease;
+}
+
+#answerStatus {
+  white-space: nowrap;      /* Prevent line break in text */
+}
+.highlight {
+  background-color: yellow;
+  border-radius: 4px;
 }
 
 #userAnswer {
@@ -2509,4 +2529,14 @@ body {
 #global-tooltip.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.answer-option {
+  padding: 2px 6px;
+  transition: all 0.3s ease;
+}
+
+.highlight {
+  background-color: yellow;
+  border-radius: 4px;
 }
