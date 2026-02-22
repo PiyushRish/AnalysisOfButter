@@ -98,7 +98,6 @@ if (result && finalResult) {
 // ===== ANSWER CHECK LOGIC =====
 const checkBtn = document.getElementById("checkBtn");
 const userAnswer = document.getElementById("userAnswer");
-const answerCheck = document.getElementById("answerCheck");
 
 // You already use these values in showCalculation()
 // const CORRECT_V = dropVolume;
@@ -107,30 +106,37 @@ const answerCheck = document.getElementById("answerCheck");
 // const W = 5.0;
 // const FACTOR = 0.282;
 
-// const correctAnswer = ((CORRECT_V * N * FACTOR) / W);
-console.log("Correct Answer (for checking):", calResult);  
+const answerCheck = document.getElementById("answerCheck");
+const wrongText = document.getElementById("wrongText");
+const rightText = document.getElementById("rightText");
+
+const N = 0.1;
+const W = 5.0;
+const FACTOR = 0.282;
+const tolerance = 0.01;
 
 if (checkBtn) {
   checkBtn.addEventListener("click", () => {
+
     const studentValue = parseFloat(userAnswer.value);
+    const correctAnswer = ((dropVolume * N * FACTOR) / W) * 100;
 
     if (isNaN(studentValue)) {
-      answerCheck.innerText = "Please enter a number";
-      answerCheck.style.color = "yellow";
       return;
     }
 
-    if (studentValue === calResult) {
-      console.log("Student answer is correct.",studentValue, calResult);
-      answerCheck.innerText = "✅ Correct!";
-      answerCheck.style.color = "#2ecc71"; // green
+    // Remove previous highlights
+    wrongText.classList.remove("highlight");
+    rightText.classList.remove("highlight");
+
+    if (Math.abs(studentValue - correctAnswer) <= tolerance) {
+      rightText.classList.add("highlight");
     } else {
-      answerCheck.innerText = `❌ Wrong!`;
-      answerCheck.style.color = "red";
+      wrongText.classList.add("highlight");
     }
+
   });
 }
-
 
   // const mmBtn = elementId("mm");
   // const ssBtn = elementId("ss");
@@ -186,27 +192,7 @@ function updateWaterBathScreen() {
   waterBathSetTemp.innerText = `SET: ${setTemp}°C`;
 }
 
-  // --- INSTRUCTION LOGIC ---
-  // --- START BUTTON LOGIC ---
-const startExperimentBtn = document.getElementById("startExperimentBtn");
 
-if (startExperimentBtn) {
-  startExperimentBtn.addEventListener("click", async () => {
-
-    // Hide start button
-    startExperimentBtn.style.display = "none";
-
-    // Start experiment sequence
-    if (typeof runIntroductionSequence === "function") {
-      await runIntroductionSequence();
-    }
-
-    // Start at step 1
-    experimentStep = 1;
-    updateInstruction(1);
-
-  });
-}
 
   function updateInstruction(step) {
     const stepBox = document.querySelector(".stepBox");
@@ -238,11 +224,13 @@ if (startExperimentBtn) {
     stepBox.innerHTML = `<span style="color: rgb(187, 4, 4);">Instruction:</span> ${msg}`;
   }
   const stepToggleBtn = document.getElementById("stepToggleBtn");
-const stepSidebar = document.getElementById("stepSidebar");
+  const stepSidebar = document.getElementById("stepSidebar");
 
-stepToggleBtn.addEventListener("click", () => {
-  stepSidebar.classList.toggle("open");
-});
+  if (stepToggleBtn) {
+    stepToggleBtn.addEventListener("click", () => {
+      if (stepSidebar) stepSidebar.classList.toggle("open");
+    });
+  }
 
   // --- DEBUG STEP JUMP (NO CONSOLE REQUIRED) ---
 window.jumpToStep = function(step) {
@@ -266,31 +254,20 @@ window.jumpToStep = function(step) {
 };
 
 
-  // --- 1. INTRO & START FUNCTIONALITY ---
-  if (btnStart) {
-    btnStart.addEventListener("click", async () => {
-      if (introOverlay) {
-        introOverlay.style.opacity = "0";
-        await wait(800);
-        introOverlay.style.display = "none";
-      }
-
-      await runIntroductionSequence();
-
+  // Start button — instant reveal, no intro animation
+  const startExperimentBtn = document.getElementById("startExperimentBtn");
+  if (startExperimentBtn) {
+    startExperimentBtn.addEventListener("click", () => {
+      startExperimentBtn.style.display = "none";
+      // Reveal only the initial instruments needed for step 1
+      ["butter-block", "knife", "plate", "flask", "spatula", "weightingMachineWrapper"]
+        .forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = "block";
+        });
       experimentStep = 1;
       updateInstruction(1);
-
-      const stepBox = document.querySelector(".stepBox");
-      if (stepBox) {
-        stepBox.style.transform = "scale(1.1)";
-        await wait(200);
-        stepBox.style.transform = "scale(1)";
-      }
     });
-  } else {
-    // Fallback if no button
-    experimentStep = 1;
-    updateInstruction(1);
   }
 
   async function runIntroductionSequence() {
@@ -402,7 +379,7 @@ window.jumpToStep = function(step) {
 
       // Lift both
       flask.style.top = "10.5%";
-      butterSlice.style.top = "41.8%";
+      butterSlice.style.top = "43.5%";
       await wait(1000);
 
       // Move both
@@ -434,7 +411,7 @@ window.jumpToStep = function(step) {
       flask.style.top = "21.5%";
       butterSlice.style.top = "53.5%";
       console.log("Step 10 Complete: Flask in Water Bath");
-     next2.style.display="block";
+     
       experimentStep = 12; // Next: Start Water Bath
       updateInstruction(11);
     }
@@ -480,7 +457,7 @@ window.jumpToStep = function(step) {
       experimentStep = -1; // Lock UI
 
       // 1. Scale Down
-      flask.style.transform = "scale(0.8)";
+      flask.style.transform = "scale(0.6)";
       flask.style.zIndex = 28;
       await wait(800);
 
@@ -491,7 +468,7 @@ window.jumpToStep = function(step) {
 
       // Wait for animation
       await wait(1000);
-      flask.style.top = "52%";
+      flask.style.top = "48%";
 
       // Unlock next step (Titration)
       experimentStep = 18;
@@ -628,6 +605,7 @@ waterBathStart.addEventListener("click", async () => {
 
         butterMelted.classList.add("filling");
         await wait(1000);
+        butterSlice.style.display = "none";
          butterMelted.src = "./images/flaskButterWaterBath.png";
       }
     }, 200);
@@ -642,8 +620,8 @@ waterBathStart.addEventListener("click", async () => {
   const timerBox = document.getElementById("waterBathCountdown");
   timerBox.classList.remove("hidden");
 
-  bathTimeRemaining = 180;
-  timerBox.innerText = "03:00";
+  bathTimeRemaining = 60
+  timerBox.innerText = "01:00";
 
   bathTimerInterval = setInterval(() => {
     bathTimeRemaining--;
@@ -658,14 +636,14 @@ waterBathStart.addEventListener("click", async () => {
       bathTimerInterval = null;
       timerBox.classList.add("hidden");
 
-      console.log("Water bath completed (3 minutes)");
+      console.log("Water bath completed (1 minute reached)");
 
       // 🔽 Now STOP melting and continue experiment
       setTimeout(async () => {
         butterSlice.classList.remove("reducing1");
         butterMelted.classList.remove("filling");
 
-        await wait(3000);
+        // await wait(3000);
        
         flask.style.top = "-10%";
         await wait(1000);
@@ -675,8 +653,9 @@ waterBathStart.addEventListener("click", async () => {
 
         experimentStep = 13;
         next3.style.display = "block";
+        
         updateInstruction(12);
-      }, 5000);
+      }, 5);
     }
   }, 100);
 });
@@ -694,7 +673,7 @@ waterBathStart.addEventListener("click", async () => {
     await wait(1000);
     diethylEther.style.left = "44%";
     await wait(1000);
-    diethylEther.style.top = "calc(66% - 18vw)";
+    diethylEther.style.top = "calc(67% - 18vw)";
     diethylEther.style.transform = "rotate(-90deg)";
     await wait(1000);
     diethylEther.style.transform = "rotate(-100deg)";
@@ -792,10 +771,10 @@ waterBathStart.addEventListener("click", async () => {
 
       measuringCylinder.style.top="20%";
       await wait(1000);
-      measuringCylinder.style.left="49%";
+      measuringCylinder.style.left="48.5%";
       await wait(1000);
       measuringCylinder.style.top="32%";
-      measuringCylinder.style.transform = "rotate(-90deg)";
+      measuringCylinder.style.transform = "rotate(-98deg)";
       await wait(1000);
       cylinderSolution.classList.add("reducing1");
     
@@ -1054,7 +1033,7 @@ waterBathStart.addEventListener("click", async () => {
     }
   }
   console.log(btnNext0,"btnNext0");
-  btnNext3.addEventListener("click", () => setupScene("12"));
+  if (btnNext3) btnNext3.addEventListener("click", () => setupScene("12"));
   if (btnNext0) btnNext0.addEventListener("click", () => setupScene("start"));
   if (btnNext2) btnNext2.addEventListener("click", () => setupScene("nextButton2"));
   if (btnNext4) btnNext4.addEventListener("click", () => setupScene("nextButton4"));
@@ -1264,3 +1243,43 @@ if (startExperimentBtn) {
     }
   });
 }
+
+//  BODY-LEVEL TOOLTIP for butter (bypasses container overflow:hidden) 
+(function() {
+  const tip = document.getElementById("global-tooltip");
+  if (!tip) return;
+
+  const butterTargets = [
+    { id: "butter-block",   label: "Butter Sample" },
+    { id: "butter-slice-1", label: "Butter Slice"  },
+  ];
+
+  let hideTimer = null;
+
+  function showTip(label, x, y) {
+    clearTimeout(hideTimer);
+    tip.textContent = label;
+    tip.style.left = x + "px";
+    tip.style.top  = y + "px";
+    requestAnimationFrame(() => {
+      const w = tip.offsetWidth;
+      const h = tip.offsetHeight;
+      tip.style.left = (x - w / 2) + "px";
+      tip.style.top  = (y - h - 16) + "px";
+      tip.classList.add("visible");
+    });
+  }
+
+  function hideTip() {
+    tip.classList.remove("visible");
+    hideTimer = setTimeout(() => { tip.textContent = ""; }, 300);
+  }
+
+  butterTargets.forEach(function(item) {
+    const el = document.getElementById(item.id);
+    if (!el) return;
+    el.addEventListener("mouseenter", function(e) { showTip(item.label, e.clientX, e.clientY); });
+    el.addEventListener("mousemove",  function(e) { showTip(item.label, e.clientX, e.clientY); });
+    el.addEventListener("mouseleave", hideTip);
+  });
+})();
