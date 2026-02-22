@@ -105,6 +105,14 @@ body {
   font-size: 1.2vmin;
   overflow-y: auto;
 }
+.meltingEffect {
+  transition: filter 30s linear;
+  filter: brightness(1.3) saturate(0.6) sepia(0.3);
+}
+
+.meltedFinal {
+  filter: brightness(1.5) saturate(0.4) sepia(0.5);
+}
 
 /* --- LAB EQUIPMENT --- */
 
@@ -297,6 +305,10 @@ body {
 }
 
 #screen {
+  display: flex;
+   justify-content: center;   /* horizontal center */
+  align-items: center;       /* vertical center */
+  text-align: center;
   position: absolute;
   top: 44%;
   left: 48.5%;

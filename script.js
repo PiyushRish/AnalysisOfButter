@@ -457,14 +457,14 @@ window.jumpToStep = function(step) {
       experimentStep = -1; // Lock UI
 
       // 1. Scale Down
-      flask.style.transform = "scale(0.8)";
+      flask.style.transform = "scale(0.6)";
       flask.style.zIndex = 28;
       await wait(800);
 
       // 2. Move to position (Under Burette)
       flask.style.top = "55%";
       await wait(900);
-      flask.style.left = "11.5%";
+      flask.style.left = "12%";
 
       // Wait for animation
       await wait(1000);
@@ -620,8 +620,8 @@ waterBathStart.addEventListener("click", async () => {
   const timerBox = document.getElementById("waterBathCountdown");
   timerBox.classList.remove("hidden");
 
-  bathTimeRemaining = 180;
-  timerBox.innerText = "03:00";
+  bathTimeRemaining = 60
+  timerBox.innerText = "01:00";
 
   bathTimerInterval = setInterval(() => {
     bathTimeRemaining--;
@@ -636,14 +636,14 @@ waterBathStart.addEventListener("click", async () => {
       bathTimerInterval = null;
       timerBox.classList.add("hidden");
 
-      console.log("Water bath completed (3 minutes)");
+      console.log("Water bath completed (1 minute reached)");
 
       // 🔽 Now STOP melting and continue experiment
       setTimeout(async () => {
         butterSlice.classList.remove("reducing1");
         butterMelted.classList.remove("filling");
 
-        await wait(3000);
+        // await wait(3000);
        
         flask.style.top = "-10%";
         await wait(1000);
@@ -770,10 +770,10 @@ waterBathStart.addEventListener("click", async () => {
 
       measuringCylinder.style.top="20%";
       await wait(1000);
-      measuringCylinder.style.left="49%";
+      measuringCylinder.style.left="48.5%";
       await wait(1000);
       measuringCylinder.style.top="32%";
-      measuringCylinder.style.transform = "rotate(-90deg)";
+      measuringCylinder.style.transform = "rotate(-98deg)";
       await wait(1000);
       cylinderSolution.classList.add("reducing1");
     
