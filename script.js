@@ -379,7 +379,7 @@ window.jumpToStep = function(step) {
 
       // Lift both
       flask.style.top = "10.5%";
-      butterSlice.style.top = "41.8%";
+      butterSlice.style.top = "43.5%";
       await wait(1000);
 
       // Move both
@@ -411,7 +411,7 @@ window.jumpToStep = function(step) {
       flask.style.top = "21.5%";
       butterSlice.style.top = "53.5%";
       console.log("Step 10 Complete: Flask in Water Bath");
-     next2.style.display="block";
+     
       experimentStep = 12; // Next: Start Water Bath
       updateInstruction(11);
     }
@@ -653,6 +653,7 @@ waterBathStart.addEventListener("click", async () => {
 
         experimentStep = 13;
         next3.style.display = "block";
+        
         updateInstruction(12);
       }, 5);
     }
