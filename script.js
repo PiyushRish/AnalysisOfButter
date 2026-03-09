@@ -229,8 +229,8 @@ function updateInstruction(step) {
       case 15: msg = "Drops added. Click Pipette to move it aside."; break;
       case 16: msg = "Click 'Next' (Bottom Right) to proceed."; break;
       case 17: msg = "Click Flask to place under Burette."; break;
-      case 18: msg = "Ready for Titration. Open the nozzle."; break;
-      case 19: msg = "Experiment Complete. Calculation shown."; break;
+      case 18: msg = "Click the burette nozzle to start/stop titration drops."; break;
+      case 19: msg = "Click 'Observation' to view the calculation table."; break;
       default: msg = "Follow the on-screen procedures.";
     }
     stepBox.innerHTML = `<span style="color: rgb(187, 4, 4);">Instruction:</span> ${msg}`;
