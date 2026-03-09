@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -103,7 +103,6 @@
         </p>
 
       </div>
-      <div id="waterBathCountdown" class="hidden">01:00</div>
 
       <!-- SLIDER TOGGLE BUTTON -->
       <button id="stepToggleBtn">☰</button>
@@ -113,17 +112,25 @@
         <h3>Experiment Progress</h3>
 
         <ul id="stepList">
-          <li data-step="1">Butter slicing</li>
-          <li data-step="2">Weighing setup</li>
-          <li data-step="3">Empty flask</li>
-          <li data-step="4">Tare balance</li>
-          <li data-step="5">Add butter</li>
-          <li data-step="6">Final weighing</li>
-          <li data-step="7">Solvent addition</li>
-          <li data-step="8">Water bath</li>
-          <li data-step="9">Indicator</li>
-          <li data-step="10">Titration</li>
-          <li data-step="11">Calculation</li>
+          <li data-step="1">Cut butter slice</li>
+          <li data-step="2">Power on weighing machine</li>
+          <li data-step="3">Weigh empty flask</li>
+          <li data-step="4">Tare the balance</li>
+          <li data-step="5">Add butter to flask</li>
+          <li data-step="6">Weigh filled flask</li>
+          <li data-step="7">Proceed to solvent addition</li>
+          <li data-step="8">Add neutralized ethanol</li>
+          <li data-step="9">Proceed to water bath</li>
+          <li data-step="10">Move flask to water bath</li>
+          <li data-step="11">Set temp & start timer</li>
+          <li data-step="12">Proceed after water bath</li>
+          <li data-step="13">Add phenolphthalein</li>
+          <li data-step="14">Add drops</li>
+          <li data-step="15">Move pipette away</li>
+          <li data-step="16">Proceed to titration</li>
+          <li data-step="17">Position flask under burette</li>
+          <li data-step="18">Open burette nozzle</li>
+          <li data-step="19">View calculation</li>
         </ul>
 
         <div class="sidebar-table-wrapper">
@@ -237,6 +244,12 @@
           <div id="waterBathCurrentTemp">--°C</div>
           <div id="waterBathSetTemp">SET: --°C</div>
 
+          <!-- Timer (Digital Clock) -->
+          <div id="waterBathCountdown" class="hidden">
+            <img src="./images/clock.png" alt="Clock" class="clock-bg" />
+            <span id="waterBathTime">00:00</span>
+          </div>
+
           <!-- Controls -->
           <button id="waterBathPower">Power</button>
           <button id="tempUp">▲</button>
@@ -304,7 +317,9 @@
         <button id="btnNext4">Next</button>
       </div>
 
-
+      <div class="observation">
+        <button id="observationBtn">Observation</button>
+      </div>
 
 
     </div>

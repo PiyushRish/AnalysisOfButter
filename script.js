@@ -1,4 +1,4 @@
-// Wait for the DOM to be fully loaded before running the script
+﻿// Wait for the DOM to be fully loaded before running the script
 document.addEventListener("DOMContentLoaded", () => {
   // --- HELPERS ---
   const elementId = (id) => document.getElementById(id);
@@ -194,12 +194,24 @@ function updateWaterBathScreen() {
 
 
 
-  function updateInstruction(step) {
+  function updateSidebarProgress(currentStep) {
+  const stepItems = document.querySelectorAll("#stepList li");
+  stepItems.forEach((li) => {
+    const stepNum = Number(li.getAttribute("data-step"));
+    if (isNaN(stepNum)) return;
+    li.classList.toggle("completed", stepNum < currentStep);
+    li.classList.toggle("current", stepNum === currentStep);
+  });
+}
+
+function updateInstruction(step) {
     const stepBox = document.querySelector(".stepBox");
     if (!stepBox) return;
 
     let msg = "";
     switch (step) {
+
+      case 0: msg = "Hover over the instruments to familiarize yourself with the setup."; break;
       case 1: msg = "Click the knife to cut a butter slice."; break;
       case 2: msg = "Turn on the Weighing Machine."; break;
       case 3: msg = "Click the Empty Flask to weigh it."; break;
@@ -222,7 +234,13 @@ function updateWaterBathScreen() {
       default: msg = "Follow the on-screen procedures.";
     }
     stepBox.innerHTML = `<span style="color: rgb(187, 4, 4);">Instruction:</span> ${msg}`;
+    updateSidebarProgress(step);
   }
+
+  // Initialize with the first instruction (step 0) before the user starts
+  experimentStep = 0;
+  updateInstruction(0);
+
   const stepToggleBtn = document.getElementById("stepToggleBtn");
   const stepSidebar = document.getElementById("stepSidebar");
 
@@ -618,10 +636,11 @@ waterBathStart.addEventListener("click", async () => {
 
   /* ===== SHOW & START 3-MIN TIMER (AFTER TEMP REACHED) ===== */
   const timerBox = document.getElementById("waterBathCountdown");
+  const timeDisplay = document.getElementById("waterBathTime");
   timerBox.classList.remove("hidden");
 
   bathTimeRemaining = 60
-  timerBox.innerText = "01:00";
+  if (timeDisplay) timeDisplay.innerText = "00:00";
 
   bathTimerInterval = setInterval(() => {
     bathTimeRemaining--;
@@ -629,7 +648,7 @@ waterBathStart.addEventListener("click", async () => {
     const min = String(Math.floor(bathTimeRemaining / 60)).padStart(2, "0");
     const sec = String(bathTimeRemaining % 60).padStart(2, "0");
 
-    timerBox.innerText = `${min}:${sec}`;
+    if (timeDisplay) timeDisplay.innerText = `${min}:${sec}`;
 
     if (bathTimeRemaining <= 0) {
       clearInterval(bathTimerInterval);
@@ -996,6 +1015,15 @@ waterBathStart.addEventListener("click", async () => {
       knife.style.display = "none";
       flask.style.display = "block";
       butterSlice.style.display = "block";
+
+      // Show the digital timer clock (starts when water bath begins)
+      const timerBox = document.getElementById("waterBathCountdown");
+      const timeDisplay = document.getElementById("waterBathTime");
+      if (timerBox) {
+        timerBox.classList.remove("hidden");
+        if (timeDisplay) timeDisplay.innerText = "00:00";
+      }
+
       experimentStep = 11;
       updateInstruction(10);
     } 
@@ -1006,6 +1034,11 @@ waterBathStart.addEventListener("click", async () => {
       pipette.style.display = "block";
       // diethylEther.style.display = "block";
       petroleumEther.style.display = "block";
+
+      // Hide the timer when leaving the water bath stage
+      const timerBox = document.getElementById("waterBathCountdown");
+      if (timerBox) timerBox.classList.add("hidden");
+
       experimentStep = 14;
       updateInstruction(13);
       console.log(experimentStep);
@@ -1037,100 +1070,94 @@ waterBathStart.addEventListener("click", async () => {
   if (btnNext0) btnNext0.addEventListener("click", () => setupScene("start"));
   if (btnNext2) btnNext2.addEventListener("click", () => setupScene("nextButton2"));
   if (btnNext4) btnNext4.addEventListener("click", () => setupScene("nextButton4"));
-  
+
+  const observationContainer = document.querySelector(".observation");
+  const observationBtn = elementId("observationBtn");
+  if (observationContainer) {
+    observationContainer.style.display = "none";
+  }
+
+  if (observationBtn) {
+    observationBtn.addEventListener("click", () => {
+      showCalculation();
+      if (observationContainer) observationContainer.style.display = "none";
+    });
+  }
 
   // --- BURETTE TITRATION LOGIC (CORRECTED) ---
- 
-if (buretteNozzel) {
-  buretteNozzel.addEventListener("click", async () => {
+  if (buretteNozzel) {
+    buretteNozzel.addEventListener("click", async () => {
+      // Only allow during titration step
+      if (experimentStep !== 18) return;
 
-    // Only allow during titration step
-    if (experimentStep !== 18) return;
+      /* ======================
+         OPEN BURETTE
+      ======================= */
+      if (!buretteOpen) {
+        buretteOpen = true;
+        buretteNozzel.style.transform = "rotate(60deg)";
+        console.log("Burette opened");
 
-    /* ===============================
-    
-       TOGGLE: OPEN / CLOSE BURETTE
-    ================================ */
+        buretteInterval = setInterval(async () => {
+          if (isDropping) return;
+          isDropping = true;
 
-   if (buretteNozzel) {
-  buretteNozzel.addEventListener("click", async () => {
+          // DROP animation
+          drop.style.display = "block";
+          drop.classList.remove("drop-form", "drop-fall");
+          void drop.offsetWidth;
 
-    if (experimentStep !== 18) return;
+          drop.classList.add("drop-form");
+          await wait(300);
 
-    /* ======================
-       OPEN BURETTE
-    ======================= */
-    if (!buretteOpen) {
-      buretteOpen = true;
-      buretteNozzel.style.transform = "rotate(60deg)";
-      console.log("Burette opened");
+          drop.classList.remove("drop-form");
+          drop.classList.add("drop-fall");
+          await wait(800);
 
-      buretteInterval = setInterval(async () => {
-        if (isDropping) return;
-        isDropping = true;
+          drop.style.display = "none";
+          dropVolume += 2.5;
+          buretteDropCount++;
+          naohUsed.innerText = `${buretteDropCount * 2.5} ml`;
+          console.log(`Drop count: ${buretteDropCount}`);
 
-        // DROP animation
-        drop.style.display = "block";
-        drop.classList.remove("drop-form", "drop-fall");
-        void drop.offsetWidth;
+          // ENDPOINT (ONLY VISUAL + CALC, NO STOP)
+          if (buretteDropCount === 3) {
+            console.log("Endpoint reached (color change)");
 
-        drop.classList.add("drop-form");
-        await wait(300);
+            if (butterMelted) {
+              butterMelted.style.filter =
+                "hue-rotate(270deg) saturate(3)";
+            }
 
-        drop.classList.remove("drop-form");
-        drop.classList.add("drop-fall");
-        await wait(800);
+            await wait(800);
 
-        drop.style.display = "none";
-        dropVolume += 2.5;
-        buretteDropCount++;
-        naohUsed.innerText = `${buretteDropCount * 2.5} ml`;
-        console.log(`Drop count: ${buretteDropCount}`);
-
-        // ENDPOINT (ONLY VISUAL + CALC, NO STOP)
-        if (buretteDropCount === 3) {
-          console.log("Endpoint reached (color change)");
-
-          if (butterMelted) {
-            butterMelted.style.filter =
-              "hue-rotate(270deg) saturate(3)";
+            updateInstruction(19);
           }
 
-          await wait(800);
-          
+          isDropping = false;
+        }, 1200); // continuous flow
+      }
 
-          // experimentStep = 19;
-          updateInstruction(19);
+      /* ======================
+         CLOSE BURETTE (MANUAL)
+      ======================= */
+      else {
+        buretteOpen = false;
+        buretteNozzel.style.transform = "rotate(0deg)";
+        console.log("Burette closed manually");
+
+        if (buretteInterval) {
+          clearInterval(buretteInterval);
+          buretteInterval = null;
         }
 
-        isDropping = false;
-      }, 1200); // continuous flow
-    }
-
-    /* ======================
-       CLOSE BURETTE (MANUAL)
-    ======================= */
-    else {
-      buretteOpen = false;
-      buretteNozzel.style.transform = "rotate(0deg)";
-      console.log("Burette closed manually");
-      showCalculation();
-
-      if (buretteInterval) {
-        clearInterval(buretteInterval);
-        buretteInterval = null;
+        // Show observation button for the student to view results
+        if (observationContainer) {
+          observationContainer.style.display = "block";
+        }
       }
-    }
-  });
-}
-
-
-
-    // ---------- CLOSE ----------
-    
-    
-  });
-}
+    });
+  }
 
 
   // --- SHOW CALCULATION MODAL FUNCTION ---

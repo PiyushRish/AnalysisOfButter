@@ -221,6 +221,44 @@ body {
   z-index: 101;
 }
 
+/* CLOCK (PNG BACKGROUND + COUNTER) */
+#waterBathCountdown {
+  position: absolute;
+  bottom: 5%;
+  left: 105%;
+  width: 40%;
+  height: 40%;
+  z-index: 101;
+  overflow: hidden;
+  pointer-events: none;
+  background: none; /* Use the <img> inside for the clock face */
+}
+
+#waterBathCountdown .clock-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#waterBathCountdown #waterBathTime {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Arial", sans-serif;
+  font-size: 1.6vw;
+  letter-spacing: 0.15em;
+  color: #00e5ff;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.85);
+  z-index: 2;
+  pointer-events: none;
+}
+
 /* POWER BUTTON */
 #waterBathPower {
   position: absolute;
@@ -2022,33 +2060,87 @@ body {
 }
 
 #calcModal {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 3000;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+#calcModal .chalkboard {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  background-color: #0f3d3d;
+  border: 1.5vmin solid #8b5a2b;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  padding: 2vmin;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Observation button shown after titration stop */
+.observation {
+  display: none;
+  position: absolute;
+  bottom: 2%;
+  right: 1.5%;
+  z-index: 200;
+}
+
+.observation button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.65em 1.7em;
+  font-size: clamp(13px, 1.8vmin, 19px);
+  font-weight: 800;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #d35400 0%, #a84300 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(212, 84, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.13s ease, box-shadow 0.13s ease;
+}
+
+.observation button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 22px rgba(212, 84, 0, 0.60);
+}
+
+.observation button:active {
+  transform: scale(0.97);
+}
+
 .chalkboard {
-  width: 70%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
   background-color: #0f3d3d;
   /* Dark Green */
   border: 1.5vmin solid #8b5a2b;
   /* Wood Frame */
-  border-radius: 5px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 0;
+  box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0);
   color: #fff;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   padding: 2vmin;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .chalkboard h2 {
@@ -2348,19 +2440,6 @@ body {
   cursor: pointer;
 }
 
-#waterBathCountdown {
-  position: absolute;
-  top: 2%;
-  left: 2%;
-  background: rgba(0, 0, 0, 0.8);
-  color: #00ff00;
-  font-family: "Courier New", monospace;
-  font-size: 1.5vw;
-  padding: 0.4em 0.7em;
-  border-radius: 6px;
-  z-index: 5000;
-}
-
 /* Hide by default */
 .hidden {
   display: none;
@@ -2424,20 +2503,19 @@ body {
   background: #444;
   opacity: 0.5;
   font-size: 0.85rem;
+  display: none; /* hide until completed */
 }
 
 /* STATES */
 #stepList li.completed {
+  display: block;
   background: #2ecc71;
   color: black;
   opacity: 1;
 }
 
 #stepList li.current {
-  background: #f1c40f;
-  color: black;
-  font-weight: bold;
-  opacity: 1;
+  /* current step stays hidden until completed */
 }
 
 .sidebar-table-wrapper {
