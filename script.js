@@ -211,7 +211,7 @@ function updateInstruction(step) {
     let msg = "";
     switch (step) {
 
-      case 0: msg = "Hover over the instruments to familiarize yourself with the setup."; break;
+      case 0: msg = "Hover over the instruments to familiarize yourself with the setup. Then click on the start button to start button to proceed."; break;
       case 1: msg = "Click the knife to cut a butter slice."; break;
       case 2: msg = "Turn on the Weighing Machine."; break;
       case 3: msg = "Click the Empty Flask to weigh it."; break;
@@ -220,17 +220,18 @@ function updateInstruction(step) {
       case 6: msg = "Click the Flask to take it out of the weighting machine."; break;
       case 7: msg = "Click 'Next' (Bottom Right) to proceed."; break;
       case 8: msg = "Click on the Neutralized Ethanol to add 50ml of it in the flask."; break;
-      case 9: msg = "Click 'Next' (Bottom Right) to proceed."; break;
-      case 10: msg = "Click Flask to move to Water Bath."; break;
-      case 11: msg = "Set Temp 50°C, Timer 1m, then Start."; break;
-      case 12: msg = "Click 'Next' (Bottom Right) to proceed"; break;
-      case 13: msg = "Click Pipette to add Phenolphthalein."; break;
-      case 14: msg = "Click Pipette to add drops."; break;
-      case 15: msg = "Drops added. Click Pipette to move it aside."; break;
-      case 16: msg = "Click 'Next' (Bottom Right) to proceed."; break;
-      case 17: msg = "Click Flask to place under Burette."; break;
-      case 18: msg = "Click the burette nozzle to start/stop titration drops."; break;
-      case 19: msg = "Click 'Observation' to view the calculation table."; break;
+      case 9: msg = "Click on the Measuring Cylinder to pour 50ml of it into the flask."; break;
+      case 10: msg = "Click 'Next' (Bottom Right) to proceed."; break;
+      case 11: msg = "Click on the Flask to move it upon the Hot Metal Plate"; break;
+      case 12: msg = "Set Temp 50°C, Timer 1m, then Start."; break;
+      case 13: msg = "Click 'Next' (Bottom Right) to proceed"; break;
+      case 14: msg = "Click Pipette to add Phenolphthalein."; break;
+      case 15: msg = "Click Pipette to add drops."; break;
+      case 16: msg = "Drops added. Click Pipette to move it aside."; break;
+      case 17: msg = "Click 'Next' (Bottom Right) to proceed."; break;
+      case 18: msg = "Click Flask to place under Burette."; break;
+      case 19: msg = "Click the burette nozzle to start/stop titration drops."; break;
+      case 20: msg = "Click 'Observation' button to view the calculation table."; break;
       default: msg = "Follow the on-screen procedures.";
     }
     stepBox.innerHTML = `<span style="color: rgb(187, 4, 4);">Instruction:</span> ${msg}`;
@@ -239,6 +240,7 @@ function updateInstruction(step) {
 
   // Initialize with the first instruction (step 0) before the user starts
   experimentStep = 0;
+  console.log(`Updating instruction to step 0`);
   updateInstruction(0);
 
   const stepToggleBtn = document.getElementById("stepToggleBtn");
@@ -353,6 +355,7 @@ window.jumpToStep = function(step) {
     console.log("Step 1 Complete: Butter sliced");  
     butterUsed.innerText="5 gram";
     experimentStep = 2; // Next: Power Machine
+    console.log(`Updating instruction to step 2`);
     updateInstruction(2);
   });
 
@@ -360,6 +363,7 @@ window.jumpToStep = function(step) {
     if (experimentStep === 2) {
       weightingMachineScreen.innerText = "0.00g";
       experimentStep = 3; // Next: Place Empty Flask
+      console.log(`Updating instruction to step 3`);
       updateInstruction(3);
       console.log("Step 2 Complete: Machine On. Next: Place Flask (Step 3)");
     }
@@ -388,6 +392,7 @@ window.jumpToStep = function(step) {
       console.log("Step 3 Complete: Empty Flask Weighed");
 
       experimentStep = 4; // Next: Tare
+      console.log(`Updating instruction to step 4`);
       updateInstruction(4);
     }
     // STEP 6: Move Flask + Butter
@@ -406,14 +411,15 @@ window.jumpToStep = function(step) {
       await wait(1000);
 
       // Drop - Values from your logic
-      flask.style.top = "calc(90% - 18vw)";
-      butterSlice.style.top = "83.6%";
+flask.style.top = "calc(90% - 18vw)";
+butterSlice.style.top = "83.6%";
 
       await wait(1000);
       console.log("Step 6 Complete: Filled Flask Weighed");
       next1.style.display="block";
 
       experimentStep = 7; // Next: Move to Water Bath
+      console.log(`Updating instruction to step 7`);
       updateInstruction(7);
     }
     // STEP 7 (Labeled 10 in logic for water bath)
@@ -431,7 +437,8 @@ window.jumpToStep = function(step) {
       console.log("Step 10 Complete: Flask in Water Bath");
      
       experimentStep = 12; // Next: Start Water Bath
-      updateInstruction(11);
+      console.log(`Updating instruction to step 12`);
+      updateInstruction(12);
     }
     // STEP 9: Move Melted Flask to Funnel Area
     else if (experimentStep === 9) {
@@ -467,11 +474,12 @@ window.jumpToStep = function(step) {
       console.log("Step 9 Complete: Butter Poured");
 
       experimentStep = 10; // Next: Add Diethyl Ether
+      console.log(`Updating instruction to step 10`);
       updateInstruction(10);
     }
-    // STEP 17: Move to Burette (Values from your logic)
-    else if (experimentStep === 17) {
-      console.log("Step 17: Scaling and Moving Flask under Burette");
+    // STEP 18: Move to Burette (Values from your logic)
+    else if (experimentStep === 18) {
+      console.log("Step 18: Scaling and Moving Flask under Burette");
       experimentStep = -1; // Lock UI
 
       // 1. Scale Down
@@ -489,8 +497,9 @@ window.jumpToStep = function(step) {
       flask.style.top = "48%";
 
       // Unlock next step (Titration)
-      experimentStep = 18;
-      updateInstruction(18);
+      experimentStep = 19;
+      console.log(`Updating instruction to step 19`);
+      updateInstruction(19);
     }
   });
 
@@ -498,6 +507,7 @@ window.jumpToStep = function(step) {
     if (experimentStep === 4) {
       weightingMachineScreen.innerText = "0.00g";
       experimentStep = 5; // Next: Spatula
+      console.log(`Updating instruction to step 5`);
       updateInstruction(5);
       console.log("Step 4 Complete: Tare Pressed");
     }
@@ -549,7 +559,7 @@ window.jumpToStep = function(step) {
 
     console.log("Step 5 Complete: Butter Added");
     experimentStep = 6; // Next: Weigh Filled Flask
-    
+    console.log(`Updating instruction to step 6`);
     updateInstruction(6);
   });
   waterBathPower.addEventListener("click", () => {
@@ -640,7 +650,7 @@ waterBathStart.addEventListener("click", async () => {
   timerBox.classList.remove("hidden");
 
   bathTimeRemaining = 60
-  if (timeDisplay) timeDisplay.innerText = "00:00";
+  if (timeDisplay) timeDisplay.innerText = "01:00";
 
   bathTimerInterval = setInterval(() => {
     bathTimeRemaining--;
@@ -672,8 +682,8 @@ waterBathStart.addEventListener("click", async () => {
 
         experimentStep = 13;
         next3.style.display = "block";
-        
-        updateInstruction(12);
+        console.log(`Updating instruction to step 13`);
+        updateInstruction(13);
       }, 5);
     }
   }, 100);
@@ -729,7 +739,8 @@ waterBathStart.addEventListener("click", async () => {
     console.log("Step 9 Complete: Diethyl Ether Added");
    
     experimentStep = 10;
-    updateInstruction(9);
+    console.log(`Updating instruction to step 10`);
+    updateInstruction(10);
   } 
   else if(experimentStep === 8){
     console.log("experiment step for pouring inside 50ml")
@@ -776,6 +787,7 @@ waterBathStart.addEventListener("click", async () => {
     console.log("Step 8 Complete: Diethyl Ether Added");
     // next2.style.display="block";
     experimentStep = 9;
+    console.log(`Updating instruction to step 9`);
     updateInstruction(9);
   }
 
@@ -827,7 +839,8 @@ waterBathStart.addEventListener("click", async () => {
     measuringCylinder.style.top="60%";
     next2.style.display="block";
     experimentStep = 10;
-    updateInstruction(9);
+    console.log(`Updating instruction to step 10`);
+    updateInstruction(10);
       // measuringCylinder.style.transform = "rotate(-90deg)";
       // await wait(1500);
       //   measuringCylinder.style.left="47%";
@@ -876,7 +889,8 @@ waterBathStart.addEventListener("click", async () => {
         console.log("Two drops added. Moving to next step.");
         next4.style.display="block";
         experimentStep = 16;
-        updateInstruction(15);
+        console.log(`Updating instruction to step 17`);
+        updateInstruction(17);
       }
 
       isDropping = false;
@@ -889,7 +903,8 @@ waterBathStart.addEventListener("click", async () => {
       pipette.style.transform = "rotate(90deg)";
 
       experimentStep = 17;
-      updateInstruction(16);
+      console.log(`Updating instruction to step 17`);
+      updateInstruction(17);
     }
     // --- STEP 13: Reagent Logic ---
     else if (experimentStep === 14) {
@@ -905,9 +920,11 @@ waterBathStart.addEventListener("click", async () => {
       pipetteDiEthylEther.classList.remove("filling", "reducing", "reducing1", "reducing2");
       void pipetteDiEthylEther.offsetWidth;
       pipetteDiEthylEther.classList.add("filling");
+       pipette.style.zIndex = 1;
       await wait(2000);
       
       // Pour into funnel/flask
+     
       pipette.style.top = "-10%";
       await wait(1000);
       pipette.style.left = "43%";
@@ -919,7 +936,8 @@ waterBathStart.addEventListener("click", async () => {
       pipettePouring.style.display = "none";
       console.log(experimentStep);
       experimentStep = 15; 
-      updateInstruction(14);
+      console.log(`Updating instruction to step 15`);
+      updateInstruction(15);
       console.log(experimentStep);
     }
   });
@@ -941,6 +959,7 @@ waterBathStart.addEventListener("click", async () => {
     await wait(1000);
     porcelainDish.style.top = originalTop;
     experimentStep = 14;
+    console.log(`Updating instruction to step 14`);
     updateInstruction(14);
   });
 
@@ -1003,12 +1022,14 @@ waterBathStart.addEventListener("click", async () => {
       weightingMachineWrapper.style.display = "block";
       flask.style.display = "block";
       experimentStep = 8;
+      console.log(`Updating instruction to step 8`);
       updateInstruction(8);
     } 
     else if (step === "nextButton2") {
       if (experimentStep !== 10) return;
       
       next2.style.display="none";
+      measuringCylinder.style.display="none";
       waterBath.style.display = "block";
       diethylEther.style.display = "none";
       petroleumEther.style.display = "none";
@@ -1025,7 +1046,8 @@ waterBathStart.addEventListener("click", async () => {
       }
 
       experimentStep = 11;
-      updateInstruction(10);
+      console.log(`Updating instruction to step 11`);
+      updateInstruction(11);
     } 
     else if (step === "12") {
       if (experimentStep !== 13) return;
@@ -1040,7 +1062,8 @@ waterBathStart.addEventListener("click", async () => {
       if (timerBox) timerBox.classList.add("hidden");
 
       experimentStep = 14;
-      updateInstruction(13);
+      console.log(`Updating instruction to step 14`);
+      updateInstruction(14);
       console.log(experimentStep);
     } 
     else if (step === "nextButton4") {
@@ -1061,8 +1084,10 @@ waterBathStart.addEventListener("click", async () => {
       flask.style.left = "40%";
       flask.style.transform = "scale(1)";
 
-      experimentStep = 17;
-      updateInstruction(17);
+      // After pressing Next, we are now at step 18: Flask under Burette
+      experimentStep = 18;
+      console.log(`Updating instruction to step 18`);
+      updateInstruction(18);
     }
   }
   console.log(btnNext0,"btnNext0");
@@ -1088,7 +1113,10 @@ waterBathStart.addEventListener("click", async () => {
   if (buretteNozzel) {
     buretteNozzel.addEventListener("click", async () => {
       // Only allow during titration step
-      if (experimentStep !== 18) return;
+      if (experimentStep !== 19) {
+        console.log(`Burette nozzle click blocked, current step = ${experimentStep} (expected 19)`);
+        return;
+      }
 
       /* ======================
          OPEN BURETTE
@@ -1131,7 +1159,6 @@ waterBathStart.addEventListener("click", async () => {
 
             await wait(800);
 
-            updateInstruction(19);
           }
 
           isDropping = false;
@@ -1145,6 +1172,9 @@ waterBathStart.addEventListener("click", async () => {
         buretteOpen = false;
         buretteNozzel.style.transform = "rotate(0deg)";
         console.log("Burette closed manually");
+        experimentStep = 20;
+        console.log(`Updating instruction to step 20`);
+        updateInstruction(20);
 
         if (buretteInterval) {
           clearInterval(buretteInterval);
