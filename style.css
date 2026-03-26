@@ -1368,7 +1368,7 @@ body {
   width: 1.6%;
   height: 45%;
   z-index: 1;
-
+  transition: clip-path 0.8s ease-in-out;
 }
 
 /* #buretteNozzel{
@@ -2208,6 +2208,41 @@ body {
   font-weight: bold;
 }
 
+/* Result button */
+#btnResult {
+  margin-top: 2vmin;
+  align-self: center;
+  padding: 1vmin 3vmin;
+  font-size: 2vmin;
+  cursor: pointer;
+  background: #ffff00;
+  color: #0f3d3d;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#btnResult:hover {
+  background: #fff176;
+}
+
+/* Result Display */
+#resultDisplay {
+  margin-top: 1.5vmin;
+  padding: 1.5vmin 2vmin;
+  border: 2px solid #ffff00;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+#resultDisplay p {
+  font-size: 2.5vmin;
+  font-weight: bold;
+  color: #ffff00;
+  margin: 0;
+}
+
 .chalk-text {
   background: rgba(255, 255, 255, 0.1);
   padding: 1vmin;
@@ -2336,6 +2371,14 @@ body {
 }
 
 /* ─── HOVER TOOLTIPS ─────────────────────────────────────────────────── */
+
+/* Hide ALL tooltips once the experiment starts */
+body.tooltips-off [data-tooltip]::before {
+  display: none !important;
+}
+body.tooltips-off #global-tooltip {
+  display: none !important;
+}
 
 /* No isolation:isolate — it creates a stacking context that breaks butter rendering */
 [data-tooltip]::before {

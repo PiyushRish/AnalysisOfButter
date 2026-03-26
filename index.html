@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -78,7 +78,11 @@
 
       </div>
 
-      <button id="btnRestart">Restart Experiment</button>
+      <button id="btnResult" class="chalk-btn">Result</button>
+      <div id="resultDisplay" style="display:none;">
+        <p id="resultText"></p>
+      </div>
+      <button id="btnRestart" style="display:none;">Restart Experiment</button>
 
     </div>
   </div>
@@ -241,8 +245,8 @@
           <img src="./images/hotMetalPlate_1.png" alt="Water bath machine" title="waterBath" id="waterBathImage" />
 
           <!-- Temperature Displays -->
-          <div id="waterBathCurrentTemp">--°C</div>
-          <div id="waterBathSetTemp">SET: --°C</div>
+          <div id="waterBathCurrentTemp"></div>
+          <div id="waterBathSetTemp"></div>
 
           <!-- Timer (Digital Clock) -->
           <div id="waterBathCountdown" class="hidden">
